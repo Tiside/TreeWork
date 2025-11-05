@@ -1,0 +1,12 @@
+Po zakonczeniu animacji odpala sie tylko dashboard. Zeby zamiast tego odpalal sie login trzeba bedzie
+w stylu main.css dla main zmienic display:none;
+a w login.css dla main-form zmienic display:flex;
+Rowniez trzeba bedzie zrobic tak zeby animacja odpala sie tylko raz dla pierwszego uzytkownika
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Animacja wejscia pierwszy raz na strone zakomentowane w App.jsx na poczatku return
+ {/*{showIntro && <Intro onFinish={() => setShowIntro(false)}/>}*/}
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+WYLACZYC <OverlayIntro/> W APP.JSX PRZED WLACZENIEM ANIMACJI LADOWANIA
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
