@@ -15,6 +15,12 @@ body {
     transition: all 0.5s ease;
 }
 
+a:-webkit-any-link
+{
+    cursor: pointer;
+    text-decoration: none;
+}
+
 
 body.lock-scroll { overflow: hidden; }
 
@@ -108,6 +114,7 @@ body.lock-scroll { overflow: hidden; }
     align-items: center;
     align-content: center;
     height: 100vh;
+
 }
 
 .main {
@@ -354,7 +361,17 @@ body.expanded .side-bar{
 
 /* Side Bar */
 
+.content{
+    flex: 1 1 auto;
+    min-height: 0;          /* позволяет внутреннему скроллу работать */
+    display: grid;
+    grid-template-columns: 72px 1fr; /* левая колонка фикс., правая тянется */
+    gap: 16px;
+    align-items: start;
+}
+
 .content .side-bar {
+    align-self: start;
     width: 7%;
     height: 65.2vh;
     padding-left: 20px;
@@ -456,9 +473,29 @@ body.expanded .side-bar{
 
 .content{
     display: flex;
+    align-items: baseline;
 }
 
 .content .app{
     width: 93%;
     height: 65.2vh;
+    position: relative;
+    margin: 0 20px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.content .app::-webkit-scrollbar {
+    width: 4px;
+    z-index: 0;
+}
+.content .app::-webkit-scrollbar-thumb {
+    background-color: var(--transaperecy);
+    /* border-radius: 10px; */
+    border: 3px solid var(--transaperecy);
+    z-index: 0;
+}
+.content .app::-webkit-scrollbar-track {
+    border-radius: 10px;
+    z-index: 0;
 }

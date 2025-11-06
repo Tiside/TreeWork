@@ -11,6 +11,9 @@ import Sidebar from "./Components/Sidebar.jsx";
 import Login from "./Pages/Login.jsx";
 import Intro from "./intro.jsx";
 import OverlayIntro from "./opensite.jsx";
+import Notes from "./Pages/Notes.jsx";
+import Calendar from "./Pages/Calendar.jsx";
+import NoteTemplate from "./Pages/NoteTemplate.jsx";
 
 function App() {
     const [showIntro, setShowIntro] = useState(true);
@@ -25,8 +28,8 @@ function App() {
 
     return (
         <>
-            {/*<OverlayIntro/>*/}
-        {showIntro && <Intro onFinish={() => setShowIntro(false)}/>}
+            <OverlayIntro/>
+        {/*{showIntro && <Intro onFinish={() => setShowIntro(false)}/>}*/}
 
             {/*<div className="background">*/}
             {/*    <video autoPlay loop muted playsInline id="bg-video">*/}
@@ -43,6 +46,11 @@ function App() {
                     <div className="content">
                         <Sidebar/>
                         <div className="app">
+                            <Routes>
+                                <Route path="/notes" element={<Notes/>}/>
+                                <Route path="/calendar" element={<Calendar/>}/>
+                                <Route path="/noteName" element={<NoteTemplate/>}/>
+                            </Routes>
                         </div>
                     </div>
                 </div>

@@ -1,4 +1,5 @@
 import {useState} from "react";
+import {Link} from "react-router-dom";
 
 
 function Sidebar() {
@@ -18,9 +19,10 @@ function Sidebar() {
                 </div>
 
                 <div className="main-icons">
-                    <i className="bx bxs-home"></i>
-                    <i className="bx bxs-calendar"></i>
-                    <i className="bx bxs-notepad"></i>
+                    <Link to="/"><i className="bx bxs-home"></i></Link>
+
+                    <Link to={"/notes"}><i className="bx bxs-notepad"></i></Link>
+                    <Link to={"/calendar"}><i className="bx bxs-calendar"></i></Link>
                     <i className="bx bx-briefcase"></i>
                 </div>
 

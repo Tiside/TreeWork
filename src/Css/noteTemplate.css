@@ -1,0 +1,231 @@
+
+
+
+
+
+.user-note .nav-note{
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid var(--light-gray);
+    background-color: var(--main-background);
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+    padding: 10px 0;
+}
+
+.user-note .nav-note .tools{
+    padding-left: 10px;
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+}
+
+.user-note .nav-note .tools span{
+    border: 1px solid var(--gray);
+    border-radius: 10px;
+    padding: 5px 10px;
+    background-color: var(--glass);
+    color: var(--white);
+}
+
+.user-note .nav-note .badge{
+    padding-right: 10px;
+    display: flex;
+}
+
+.user-note .nav-note .badge span{
+    border: 1px solid var(--gray);
+    border-radius: 20px;
+    padding: 5px 10px;
+    background-color: var(--glass);
+    color: var(--silver);
+    font-size: 14px;
+}
+
+.main-content-note{
+    border: 1px solid var(--light-gray);
+    padding: 0 20px;
+    background-color: var(--glass);
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+}
+
+.main-content-note .title{
+    line-height:1.25;
+    margin:18px 0 10px;
+    letter-spacing:.2px;
+    color: var(--white);
+}
+.main-content-note h2{
+    font-size: clamp(22px, 2.6vw, 26px);
+    color: var(--white);
+}
+
+.main-content-note h3{
+    font-size: clamp(18px, 2vw, 22px);
+    color:var(--light-gray);
+}
+
+.main-content-note .introduction{
+    color: var(--silver);
+}
+
+.main-content-note mark{
+    background: linear-gradient(90deg, rgba(115,179,255,.25), rgba(168,85,247,.22));
+    border-radius:6px;
+    padding:.1em .35em;
+    color: var(--white);
+}
+
+.main-content-note .checklist{
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    list-style: none;
+    row-gap: 5px;
+
+}
+
+.main-content-note .checklist li{
+    border: 1px solid var(--main-background);
+    background-color: var(--card);
+    text-decoration: none;
+    padding: 10px 10px;
+    color: var(--light-gray);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+}
+
+
+.main-content-note ul,
+.main-content-note ol{
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+}
+.main-content-note li{
+    border: 1px solid var(--main-background);
+    background-color: var(--card);
+    padding: 10px 10px;
+    color: var(--light-gray);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+}
+
+.main-content-note .box{
+    width:18px;
+    height:18px;
+    border-radius:6px;
+    flex:0 0 18px;
+    background: var(--transaperecy);
+    border:1px solid var(--gray);
+    display:grid;
+    place-items:center;
+    cursor:pointer;
+}
+
+.main-content-note blockquote{
+    margin:14px 0;
+    padding:14px 16px;
+    border-radius:14px;
+    background: var(--transaperecy);
+    border-left:4px solid var(--blue);
+    color: var(--white);
+}
+
+
+
+pre{
+    margin:14px 0;
+    padding:14px 16px;
+    border-radius:14px;
+    overflow:auto;
+    background: rgba(10,12,18,.75);
+    border:1px solid rgba(255,255,255,.14);
+    color:#d6e3ff;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    font-size:14px;
+    line-height:1.55;
+}
+
+code { background: rgba(255,255,255,.08);
+    border-radius:6px;
+    padding:.15em .35em;
+}
+
+
+.main-content-note .table{
+    width:100%;
+    border-collapse: collapse;
+    margin:12px 0;
+    font-size:14px;
+    color:var(--light-gray);
+    overflow:hidden;
+    border-radius:14px;
+    border:1px solid var(--main-background);
+    background: var(--transaperecy);
+}
+.main-content-note .table th, .table td{
+    padding:10px 12px;
+    border-bottom:1px solid var(--gray);
+}
+.main-content-note .table th{
+    text-align:left;
+    color:var(--white);
+    background: var(--glass);
+}
+.main-content-note .table tr:hover td{
+    background: var(--transaperecy);
+}
+
+.main-content-note .table .add-row td {
+    text-align: center;
+    padding: 14px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    cursor: pointer;
+}
+
+/* Контейнер для иконки и текста */
+.main-content-note .add-task {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    padding: 8px 16px;
+    color: var(--white);
+    font-weight: 500;
+    transition: all 0.4s ease;
+    box-shadow: 0 0 0 rgba(0,0,0,0);
+}
+
+
+.main-content-note .meta{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 20px;
+}
+
+.main-content-note .tag{
+    padding:6px 10px;
+    font-size:12px;
+    border-radius:999px;
+    color:#fff;
+    background: linear-gradient(90deg, #73b3ff, #a855f7);
+    border:1px solid rgba(255,255,255,.18);
+}
+
+.main-content-note .date {
+    margin-left: auto;
+    color: var(--silver);
+    font-size: 13px;
+}
