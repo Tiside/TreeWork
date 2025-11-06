@@ -149,8 +149,11 @@ body.expanded .main{
 body.expanded .side-bar{
     height: 85vh;
 }
+body.expanded .app{
+    height: 85vh;
+}
 
-/* Nawigacja */
+    /* Nawigacja */
 .navigation {
     display: flex;
     justify-content: space-between;

@@ -174,11 +174,12 @@
 .notes-keybinds{
     position: absolute;
     bottom: 0;
-    right: -20px;
+    right: -10px;
     background-color: var(--transaperecy);
     border: 1px solid var(--transaperecy);
     padding: 5px 25px;
     border-top-left-radius: 20px;
+
 }
 
 .notes-keybinds .binds{
