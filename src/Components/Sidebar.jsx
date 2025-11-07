@@ -1,9 +1,19 @@
 import {useState} from "react";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 
 function Sidebar() {
     const [addonsOpen, setAddonsOpen] = useState(false);
+    const navigate = useNavigate(); // 👈 dostęp do historii przeglądania
+
+    const handleBack = () => {
+        navigate(-1); // ⬅️ cofa użytkownika o jedną stronę w historii
+    };
+
+    const handleForward = () => {
+        navigate(1); // ➡️ przechodzi do następnej strony, jeśli taka istnieje
+    };
+
     return (
         <>
             <div className="side-bar">
@@ -27,8 +37,8 @@ function Sidebar() {
                 </div>
 
                 <div className="move-icons">
-                    <i className="bx bx-chevron-left"></i>
-                    <i className="bx bx-chevron-right"></i>
+                    <i className="bx bx-chevron-left" onClick={handleBack}></i>
+                    <i className="bx bx-chevron-right" onClick={handleForward}></i>
                 </div>
             </div>
         </>

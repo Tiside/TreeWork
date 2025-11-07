@@ -1,0 +1,74 @@
+
+
+.calendar{
+
+}
+
+.calendar .calendar-nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.calendar .calendar-nav h2{
+    color: var(--white);
+}
+
+.calendar .calendar-nav .buttons{
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+}
+
+.calendar .calendar-nav .buttons button{
+    border: 1px solid var(--light-gray-color);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--glass);
+    padding: 5px 10px;
+    cursor: pointer;
+    color: var(--white);
+    transition: all 0.5s ease;
+}
+
+.calendar .calendar-nav .buttons button:hover{
+    scale: 1.05;
+    background-color: var(--transaperecy);
+}
+
+.calendar .calendar-nav .buttons button i{
+    font-size: 18px;
+}
+
+.calendar .week-days{
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    column-gap: 10px;
+}
+
+.calendar .week-days .week-day{
+    border: 1px solid var(--light-gray-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    background-color: var(--glass);
+    margin-bottom: 10px;
+    padding: 2px 4px;
+}
+
+.calendar .days{
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px
+}
+
+/*.calendar .days div:nth-of-type(1){*/
+/*    border: 1px solid var(--light-gray-color);*/
+/*    background-color: var(--glass);*/
+/*    padding: 5px;*/
+/*}*/
+

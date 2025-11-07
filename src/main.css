@@ -150,6 +150,10 @@ body.expanded .side-bar{
     height: 85vh;
 }
 
+body.expanded .app{
+    height: 85vh;
+}
+
 /* Nawigacja */
 .navigation {
     display: flex;
@@ -481,8 +485,6 @@ body.expanded .side-bar{
     height: 65.2vh;
     position: relative;
     margin: 0 20px;
-    overflow-y: auto;
-    overflow-x: hidden;
 }
 
 .content .app::-webkit-scrollbar {
