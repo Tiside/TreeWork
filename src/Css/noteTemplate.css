@@ -5,6 +5,10 @@
     overflow-y: auto;
 }
 
+body.expanded .user-note{
+    height: 85vh;
+}
+
 .user-note::-webkit-scrollbar {
     width: 4px;
     z-index: 0;

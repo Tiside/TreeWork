@@ -26,6 +26,9 @@
     align-items: center;
     column-gap: 5px;
 }
+.notes-nav .create .create-nav{
+    color: var(--white);
+}
 
 /*.notes-nav .create{*/
 /*    width: 200px;*/
