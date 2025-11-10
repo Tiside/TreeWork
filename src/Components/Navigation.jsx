@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react";
+import {Link} from "react-router-dom";
 
 
 function Navigation() {
@@ -71,7 +72,7 @@ function Navigation() {
                             className="bx bx-search-alt-2"
                             onClick={() => setSearchOpen(!searchOpen)}
                         ></i>
-                        <input type="text" placeholder="Search..." />
+                        <input type="text" placeholder="Search..."/>
                     </div>
                     <div className="message">
                         <span className="count">0</span>
@@ -79,11 +80,14 @@ function Navigation() {
                     </div>
                     <i className="bx bxs-cloud"></i>
 
-                    <div className="user" onClick={() => setUserOpen(v => !v)}>
+                    <div className="user">
+                        <div className="user-pfp" onClick={() => setUserOpen(v => !v)}></div>
                         <div className="user-ui">
-                            <i className={`bx bxs-cog ${userOpen ? "show" : ""}`}></i>
-                            <i className={`bx bxs-user-circle ${userOpen ? "show" : ""}`}></i>
+                            <Link to="/settings"><i className={`bx bxs-cog ${userOpen ? "show" : ""}`}></i></Link>
+                            <Link to="/profile"><i
+                                className={`bx bxs-user-circle ${userOpen ? "show" : ""}`}></i></Link>
                         </div>
+                        <div className="activity active"></div>
                     </div>
                 </div>
             </div>

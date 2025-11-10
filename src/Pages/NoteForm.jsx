@@ -6,11 +6,12 @@ function NoteForm() {
             <form action="" className="note-form">
                 <div className="field">
                     <label htmlFor="tittle">Tittle</label>
-                    <input type="text" id="tittle" className="input" placeholder="Short and specific" />
+                    <input type="text" id="tittle" className="input" placeholder="Short and specific"/>
                 </div>
                 <div className="field">
                     <label htmlFor="description">Description</label>
-                    <input type="text" id="description" className="input" placeholder="Add a short description about your note" />
+                    <input type="text" id="description" className="input"
+                           placeholder="Add a short description about your note"/>
                 </div>
                 <div className="attributes">
                     <label htmlFor="">Attributes</label>
@@ -31,7 +32,7 @@ function NoteForm() {
                 </div>
                 <div className="field">
                     <label htmlFor="tags">Tags (optional, max 3)</label>
-                    <input type="text" id="tags" className="input" placeholder="text # and Enter" />
+                    <input type="text" id="tags" className="input" placeholder="text # and Enter"/>
                     <div className="tags-wrap">
                         <div className="tags">
                             <div className="tag">

@@ -1,8 +1,8 @@
-
 import "/src/Css/notes.css"
 import {useEffect} from "react";
 import {Link} from "react-router-dom";
-function Notes(){
+
+function Notes() {
     useEffect(() => {
         const buttons = document.querySelectorAll(".notes-nav .filters .text-icon");
 
@@ -149,7 +149,7 @@ function Notes(){
                             </div>
                             <div className="description">
                                 <p>Zrobienie notatek na stronie
-                                dasda</p>
+                                    dasda</p>
                             </div>
                             <div className="info-note">
                                 <div className="tag"></div>
@@ -187,8 +187,6 @@ function Notes(){
                             </div>
                         </div>
                     </Link>
-
-
 
 
                 </div>

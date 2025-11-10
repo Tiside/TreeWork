@@ -10,12 +10,14 @@
     width: 4px;
     z-index: 0;
 }
+
 .content .calendar::-webkit-scrollbar-thumb {
     background-color: var(--transaperecy);
     /* border-radius: 10px; */
     border: 3px solid var(--transaperecy);
     z-index: 0;
 }
+
 .content .calendar::-webkit-scrollbar-track {
     border-radius: 10px;
     z-index: 0;
@@ -92,8 +94,8 @@ body.expanded .calendar {
 
 .calendar .day:hover {
     transform: translateY(-3px);
-    box-shadow: 0 6px 24px rgba(255,255,255,0.05), 0 0 12px rgba(59,130,246,0.18);
-    border-color: rgba(255,255,255,0.25);
+    box-shadow: 0 6px 24px rgba(255, 255, 255, 0.05), 0 0 12px rgba(59, 130, 246, 0.18);
+    border-color: rgba(255, 255, 255, 0.25);
 }
 
 .calendar .day.empty {
@@ -103,13 +105,13 @@ body.expanded .calendar {
 
 
 .calendar .day.selected {
-    background: linear-gradient(180deg, rgba(168,85,247,.2), rgba(168,85,247,.1));
-    border-color: rgba(168,85,247,.4);
+    background: linear-gradient(180deg, rgba(168, 85, 247, .2), rgba(168, 85, 247, .1));
+    border-color: rgba(168, 85, 247, .4);
 }
 
 .calendar .day.weekend {
-    background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-    border-color: rgba(255,255,255,.15);
+    background: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(255, 255, 255, .02));
+    border-color: rgba(255, 255, 255, .15);
 }
 
 .calendar .day.has-events {
@@ -118,8 +120,7 @@ body.expanded .calendar {
 }
 
 
-
-.calendar .events .event{
+.calendar .events .event {
     width: auto;
     padding: 0px 4px;
     display: flex;
@@ -128,22 +129,22 @@ body.expanded .calendar {
     flex-wrap: wrap;
 }
 
-.calendar .events .event #text{
+.calendar .events .event #text {
     width: 20%;
     margin: 0;
     padding: 0;
     font-size: 14px;
 }
 
-#text{
+#text {
     color: red;
 }
 
-.calendar .events{
+.calendar .events {
     width: auto;
 }
 
-.calendar .events .this-event{
+.calendar .events .this-event {
     border-left: 3px solid var(--blue);
     display: flex;
     flex-direction: column;
@@ -152,13 +153,14 @@ body.expanded .calendar {
     width: auto;
 }
 
-.calendar .events .this-event .time{
+.calendar .events .this-event .time {
     font-size: 10px;
     padding: 0px 4px;
 }
+
 .calendar .day.today {
-    background: linear-gradient(180deg, rgba(59,130,246,.2), rgba(59,130,246,.1));
-    border-color: rgba(59,130,246,.4);
+    background: linear-gradient(180deg, rgba(59, 130, 246, .2), rgba(59, 130, 246, .1));
+    border-color: rgba(59, 130, 246, .4);
 }
 
 .day-head {
@@ -172,8 +174,8 @@ body.expanded .calendar {
 }
 
 .events-badge {
-    background: rgba(59,130,246,.25);
-    border: 1px solid rgba(59,130,246,.4);
+    background: rgba(59, 130, 246, .25);
+    border: 1px solid rgba(59, 130, 246, .4);
     border-radius: 999px;
     font-size: 12px;
     padding: 1px 5px;
@@ -209,17 +211,17 @@ body.expanded .calendar {
     color: var(--black);
 }
 
-.add-event h4{
+.add-event h4 {
     color: var(--white);
     font-size: 20px;
 }
 
-.add-event form{
+.add-event form {
     display: flex;
     flex-direction: column;
 }
 
-.add-event form input{
+.add-event form input {
     border: 1px solid var(--light-gray-color);
     padding: 5px 10px;
     margin-bottom: 15px;
@@ -228,12 +230,12 @@ body.expanded .calendar {
     color: var(--white);
 }
 
-.add-event form .buttons{
+.add-event form .buttons {
     display: flex;
     column-gap: 10px;
 }
 
-.add-event form .buttons .add-btn{
+.add-event form .buttons .add-btn {
     border: 1px solid var(--light-gray-color);
     background-color: var(--more-blue);
     color: var(--white);
@@ -243,12 +245,12 @@ body.expanded .calendar {
     transition: all 0.3s ease;
 }
 
-.add-event form .buttons .add-btn:hover{
+.add-event form .buttons .add-btn:hover {
     background-color: var(--blue);
     border-color: var(--white);
 }
 
-.add-event form .buttons .remove-btn{
+.add-event form .buttons .remove-btn {
     border: 1px solid var(--light-gray-color);
     background-color: red;
     color: var(--white);
@@ -258,7 +260,7 @@ body.expanded .calendar {
     transition: all 0.4s ease;
 }
 
-.add-event form .buttons .remove-btn:hover{
+.add-event form .buttons .remove-btn:hover {
     background-color: crimson;
     border-color: var(--gray);
 }

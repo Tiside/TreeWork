@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import "/src/Css/calendar.css";
 
 const Calendar = () => {
@@ -52,7 +52,7 @@ const Calendar = () => {
         e.preventDefault();
         if (!selectedDate || !newEvent.trim()) return;
         setEvents((prev) => {
-            const updated = { ...prev };
+            const updated = {...prev};
             if (!updated[selectedDate]) updated[selectedDate] = [];
             updated[selectedDate].push(newEvent.trim());
             return updated;
@@ -63,7 +63,7 @@ const Calendar = () => {
 
     const handleRemoveEvent = (dateKey, index) => {
         setEvents((prev) => {
-            const updated = { ...prev };
+            const updated = {...prev};
             updated[dateKey].splice(index, 1);
             if (updated[dateKey].length === 0) delete updated[dateKey];
             return updated;
@@ -89,7 +89,7 @@ const Calendar = () => {
 
     const days = [];
     for (let i = 0; i < offset; i++) {
-        days.push(<div className="day empty" key={`empty-${i}`} />);
+        days.push(<div className="day empty" key={`empty-${i}`}/>);
     }
 
     for (let d = 1; d <= daysInMonth; d++) {
@@ -166,7 +166,7 @@ const Calendar = () => {
 
         <div className="calendar">
             <div className="calendar-nav">
-                <h2 style={{ textTransform: "capitalize" }}>{monthName}</h2>
+                <h2 style={{textTransform: "capitalize"}}>{monthName}</h2>
 
                 {notification && <div className="calendar-note">{notification}</div>}
 

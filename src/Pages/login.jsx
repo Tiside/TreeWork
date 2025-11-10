@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useState} from "react";
 
 export default function Login() {
     const [activeTab, setActiveTab] = useState("login"); // 'login' | 'register'
@@ -10,7 +10,7 @@ export default function Login() {
             <div className="additional-info">
                 <div className="header">
                     {/* если файл в public/, путь просто /logo2.png */}
-                    <img src="/logo2.png" alt="" />
+                    <img src="/logo2.png" alt=""/>
                     <h3>Tree Work</h3>
                 </div>
                 <div className="text">
@@ -45,7 +45,7 @@ export default function Login() {
                     <form className="login-form form-pane show" id="loginForm" autoComplete="on">
                         <div className="field">
                             <i className="bx bx-at input-icon"></i>
-                            <input type="email" name="email" placeholder="Email" required />
+                            <input type="email" name="email" placeholder="Email" required/>
                         </div>
                         <div className="field">
                             <i className="bx bx-lock-alt input-icon"></i>
@@ -67,17 +67,20 @@ export default function Login() {
                         </div>
                         <div
                             className="actions"
-                            style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}
+                            style={{display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8}}
                         >
-                            <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }}>
-                                <input type="checkbox" name="remember" /> Remember me
+                            <label style={{display: "flex", alignItems: "center", gap: 8, cursor: "pointer"}}>
+                                <input type="checkbox" name="remember"/> Remember me
                             </label>
                             <a href="#">Forgot password?</a>
                         </div>
                         <button className="btn-primary" type="submit">Sign in</button>
                         <div className="helper">
                             No account?{" "}
-                            <a href="#" onClick={(e) => { e.preventDefault(); setActiveTab("register"); }} id="goToRegister">
+                            <a href="#" onClick={(e) => {
+                                e.preventDefault();
+                                setActiveTab("register");
+                            }} id="goToRegister">
                                 Create one
                             </a>
                         </div>
@@ -89,11 +92,11 @@ export default function Login() {
                     <form className="registration-form form-pane show" id="registerForm" autoComplete="on">
                         <div className="field">
                             <i className="bx bx-user input-icon"></i>
-                            <input type="text" name="name" placeholder="Full name" required />
+                            <input type="text" name="name" placeholder="Full name" required/>
                         </div>
                         <div className="field">
                             <i className="bx bx-at input-icon"></i>
-                            <input type="email" name="email" placeholder="Email" required />
+                            <input type="email" name="email" placeholder="Email" required/>
                         </div>
                         <div className="field">
                             <i className="bx bx-lock-alt input-icon"></i>
@@ -116,7 +119,10 @@ export default function Login() {
                         <button className="btn-primary" type="submit">Create account</button>
                         <div className="helper">
                             Have an account?{" "}
-                            <a href="#" onClick={(e) => { e.preventDefault(); setActiveTab("login"); }} id="goToLogin">
+                            <a href="#" onClick={(e) => {
+                                e.preventDefault();
+                                setActiveTab("login");
+                            }} id="goToLogin">
                                 Sign in
                             </a>
                         </div>

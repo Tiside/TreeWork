@@ -22,10 +22,12 @@ function Sidebar() {
                         className="bx bx-list-ul"
                         onClick={() => setAddonsOpen(!addonsOpen)}
                     ></i>
+                    <div className="images-link">
+                        <img src="/IMG/link-alt-regular-24.png"  alt=""/>
+                        <img src="/IMG/link-alt-regular-24.png" alt=""/>
+                        <img src="/IMG/link-alt-regular-24.png" alt=""/>
+                    </div>
 
-                    <i className="bx bx-link-alt"></i>
-                    <i className="bx bx-link-alt"></i>
-                    <i className="bx bx-link-alt"></i>
                 </div>
 
                 <div className="main-icons">

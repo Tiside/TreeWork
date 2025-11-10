@@ -1,12 +1,12 @@
 
-.notes-nav{
+.notes-nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 20px;
 }
 
-.notes-nav .create{
+.notes-nav .create {
     display: flex;
     align-items: center;
     column-gap: 5px;
@@ -21,12 +21,13 @@
     transition: all 0.5s ease;
 }
 
-.notes-nav .create .create-nav{
+.notes-nav .create .create-nav {
     display: flex;
     align-items: center;
     column-gap: 5px;
 }
-.notes-nav .create .create-nav{
+
+.notes-nav .create .create-nav {
     color: var(--white);
 }
 
@@ -66,23 +67,23 @@
 /*}*/
 
 
-.notes-nav .create:hover{
+.notes-nav .create:hover {
     box-shadow: var(--shadow);
 }
 
-.notes-nav .filters{
+.notes-nav .filters {
     display: flex;
     column-gap: 15px;
     align-items: center;
 }
 
 .notes-nav .filters .validity,
-.notes-nav .filters .date{
+.notes-nav .filters .date {
     position: relative;
 }
 
 .notes-nav .filters .validity .text-icon,
-.notes-nav .filters .date .text-icon{
+.notes-nav .filters .date .text-icon {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -101,7 +102,7 @@
 }
 
 .notes-nav .filters .validity .text-icon:hover,
-.notes-nav .filters .date .text-icon:hover{
+.notes-nav .filters .date .text-icon:hover {
     background-color: var(--transaperecy);
     border-color: var(--gray);
     scale: 1.04;
@@ -121,7 +122,7 @@
     transition: all 0.5s ease;
 }
 
-.notes-nav .filters .filtered{
+.notes-nav .filters .filtered {
     display: flex;
     flex-direction: column;
     background-color: var(--transaperecy);
@@ -137,7 +138,7 @@
     transition: all 0.5s ease;
 }
 
-.notes-nav .filters .filtered.show{
+.notes-nav .filters .filtered.show {
     display: flex;
     flex-direction: column;
     background-color: rgba(39, 38, 38, 0.9);
@@ -153,7 +154,7 @@
     height: 180px;
 }
 
-.notes-nav .filters .filtered p{
+.notes-nav .filters .filtered p {
     color: var(--gray);
     transition: all 0.5s ease;
     transform: translateY(0px);
@@ -164,17 +165,17 @@
     opacity: 0;
 }
 
-.notes-nav .filters .filtered p.show{
+.notes-nav .filters .filtered p.show {
     transform: translateY(20px);
     opacity: 1;
     z-index: 10;
 }
 
-.notes-nav .filters .filtered p:hover{
+.notes-nav .filters .filtered p:hover {
     color: var(--white);
 }
 
-.notes-keybinds{
+.notes-keybinds {
     position: absolute;
     bottom: 0;
     right: -20px;
@@ -184,18 +185,18 @@
     border-top-left-radius: 20px;
 }
 
-.notes-keybinds .binds{
+.notes-keybinds .binds {
     display: flex;
     flex-direction: column;
 }
 
-.notes-keybinds .binds .bind{
+.notes-keybinds .binds .bind {
     display: flex;
     align-items: center;
     column-gap: 10px;
 }
 
-.notes-keybinds .binds .bind .key{
+.notes-keybinds .binds .bind .key {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -209,17 +210,17 @@
     color: var(--white);
 }
 
-.notes-keybinds .binds .bind p{
+.notes-keybinds .binds .bind p {
     color: var(--silver);
 }
 
-.notes-content{
+.notes-content {
     display: flex;
     align-items: start;
     column-gap: 20px;
 }
 
-.notes-content .notes-main{
+.notes-content .notes-main {
     width: 75%;
     display: flex;
     column-gap: 10px;
@@ -227,7 +228,7 @@
     flex-wrap: wrap;
 }
 
-.notes-content .notes-main .note{
+.notes-content .notes-main .note {
     border: 1px solid var(--light-gray-color);
     background-color: var(--transaperecy);
     border-radius: 20px;
@@ -238,65 +239,69 @@
     transition: all 0.4s ease;
     transform: translateY(0);
 }
-.notes-content .notes-main a:-webkit-any-link
-{
+
+.notes-content .notes-main a:-webkit-any-link {
     width: 30%;
     padding: 3px 10px;
 }
 
-.notes-content .notes-main .note:hover{
+.notes-content .notes-main .note:hover {
     transform: translateY(-6px);
-    box-shadow: 0 6px 24px rgba(255,255,255,0.05),
-    0 0 12px rgba(59,130,246,0.25); /* легкое голубое свечение */
-    border-color: rgba(255,255,255,0.2);
+    box-shadow: 0 6px 24px rgba(255, 255, 255, 0.05),
+    0 0 12px rgba(59, 130, 246, 0.25); /* легкое голубое свечение */
+    border-color: rgba(255, 255, 255, 0.2);
 }
 
-.note .nav-note{
+.note .nav-note {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.note .validity-note{
+.note .validity-note {
     width: 12px;
     height: 12px;
     border-radius: 50px;
 }
 
 
-.note .validity-note-red{
+.note .validity-note-red {
     background-color: red;
     box-shadow: 0px 1px 10px 0px red;
 }
-.note .validity-note-green{
+
+.note .validity-note-green {
     background-color: greenyellow;
     box-shadow: 0px 1px 10px 0px greenyellow;
 }
-.note .validity-note-gray{
+
+.note .validity-note-gray {
     background-color: var(--gray);
     box-shadow: 0px 1px 10px 0px var(--gray);
 }
-.note .validity-note-blue{
+
+.note .validity-note-blue {
     background-color: var(--more-blue);
     box-shadow: 0px 1px 10px 0px var(--more-blue);
 }
 
-.notes-content .notes-main .note h3{
+.notes-content .notes-main .note h3 {
     color: var(--white);
     letter-spacing: 1px;
     margin-bottom: 0;
 }
-.notes-content .notes-main .note p{
+
+.notes-content .notes-main .note p {
     color: var(--silver);
     width: auto;
 }
 
-.note .info-note .tags{
+.note .info-note .tags {
     display: flex;
     column-gap: 10px;
 }
 
-.note .info-note .tag{
+.note .info-note .tag {
     color: var(--gray);
     border: 1px solid var(--light-gray-color);
     background-color: var(--glass);
@@ -305,17 +310,18 @@
     padding: 3px 10px;
     cursor: pointer;
 }
-.notes-content .notes-side{
+
+.notes-content .notes-side {
     width: 25%;
 }
 
-.notes-content .notes-side .header{
+.notes-content .notes-side .header {
     color: var(--light-gray-color);
     letter-spacing: 1px;
     margin-top: 0;
 }
 
-.notes-content .notes-side .side-note{
+.notes-content .notes-side .side-note {
     border: 1px solid var(--light-gray-color);
     border-radius: 10px;
     padding: 2px 5px;
@@ -324,15 +330,16 @@
     transition: all 0.5s ease;
     margin-bottom: 15px;
 }
-.notes-content .notes-side .side-note:hover{
+
+.notes-content .notes-side .side-note:hover {
     box-shadow: var(--shadow);
 }
 
-.notes-content .notes-side .side-note h3{
+.notes-content .notes-side .side-note h3 {
     color: var(--white);
 }
 
-.notes-content .notes-side .side-note p{
+.notes-content .notes-side .side-note p {
     color: var(--silver);
 }
 
