@@ -4,6 +4,7 @@
     width: auto;
     height: 64.5vh;
     overflow-y: auto;
+    margin-bottom: 10px;
 }
 
 .content .calendar::-webkit-scrollbar {
@@ -76,6 +77,7 @@ body.expanded .calendar {
     grid-template-columns: repeat(7, 1fr);
     gap: 6px;
     cursor: pointer;
+    margin-bottom: 20px;
 }
 
 .calendar .day {
@@ -205,7 +207,7 @@ body.expanded .calendar {
     padding: 0 10px;
     box-shadow: var(--shadow);
     border-radius: 20px;
-    height: 200px;
+    height: 250px;
     display: flex;
     flex-direction: column;
     color: var(--black);
@@ -227,6 +229,17 @@ body.expanded .calendar {
     margin-bottom: 15px;
     border-radius: 10px;
     background-color: var(--glass);
+    color: var(--white);
+}
+
+.add-event .times{
+    display: flex;
+    column-gap: 20px;
+}
+.add-event .times .time{
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
     color: var(--white);
 }
 

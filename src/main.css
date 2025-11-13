@@ -239,6 +239,12 @@ body.expanded .app{
     margin-right: 30px;
 }
 
+.search-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
 .navigation .user-info .search-bar {
     display: flex;
     align-items: center;
@@ -251,6 +257,7 @@ body.expanded .app{
     appearance: none;
     width: 32px;
     transition: all 0.3s ease;
+    position: relative;
 }
 
 .navigation .user-info .search-bar.open {
@@ -280,8 +287,113 @@ body.expanded .app{
     color: var(--white);
 }
 
+
+.search-results {
+    position: absolute;
+    top: 110%;
+    right: 0;
+    min-width: 260px;
+    padding: 12px;
+    border-radius: 18px;
+    background: rgba(39, 38, 38, 0.9);
+    border: 1px solid var(--transaperecy);
+    box-shadow: 0 0 18px rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(18px);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 50;
+}
+
+.search-results-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--silver);
+    opacity: 0.9;
+}
+
+.search-results-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.search-result-item {
+    background: var(--glass);
+    padding: 8px 10px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.search-result-item:hover {
+    background: var(--cool-gray-color);
+    transform: translateY(-1px);
+}
+
+.search-result-item i {
+    font-size: 20px;
+    padding: 6px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.search-result-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.search-result-title {
+    font-size: 13px;
+    color: var(--white);
+}
+
+.search-result-subtitle {
+    font-size: 11px;
+    color: var(--silver);
+    opacity: 0.85;
+}
+
+.search-result-tag {
+    margin-left: auto;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--silver);
+}
+
+.search-view-all {
+    margin-top: 4px;
+    align-self: flex-end;
+    font-size: 11px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--transaperecy);
+    background: rgba(0, 0, 0, 0.35);
+    color: var(--silver);
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.search-view-all:hover {
+    background: var(--cool-gray-color);
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+
+
 .navigation .user-info .bx-search-alt-2,
 .bxs-bell,
+.bxs-bell-off,
 .bxs-cloud {
     font-size: 30px;
     color: var(--silver);
@@ -291,6 +403,108 @@ body.expanded .app{
 
 .navigation .message {
     position: relative;
+}
+
+.navigation .notifications-content{
+    position: absolute;
+    margin-top: 15px;
+    background-color: rgba(39, 38, 38, 0.9);
+    border-radius: 15px;
+    width: 200px;
+    height: auto;
+    max-height: 500px;
+    overflow-y: auto;
+    left: -80px;
+    z-index: 100;
+    box-shadow: var(--shadow);
+    color: var(--black);
+    border: 1px solid var(--transaperecy);
+    padding: 0 10px;
+}
+
+.notifications-content .notifications-header{
+    display: flex;
+    align-items: center;
+}
+
+.notifications-content .notifications-header .text h3{
+    color: var(--white);
+    font-size: 19px;
+}
+.notifications-content .notifications-header .text p{
+    font-size: 15px;
+    width: 80%;
+    color: var(--silver);
+}
+
+.notifications-content .notifications-header .text .blue-notifaction{
+    color: var(--blue);
+}
+
+.notifications-content .notifications-header i{
+    font-size: 22px;
+    cursor: pointer;
+    color: var(--more-blue);
+    background-color: var(--glass);
+    border: 1px solid var(--transaperecy);
+    border-radius: 15px;
+    padding: 4px;
+    transition: all 0.4s ease;
+}
+.notifications-content .notifications-header i:hover{
+    color: var(--blue);
+    scale: 1.1;
+
+}
+
+.notifications-content .notifications{
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+
+}
+.notifications-content .notifications .notification {
+    border: 1px solid var(--transaperecy);
+    border-radius: 15px;
+    padding: 0 6px;
+    width: auto;
+    background-color: var(--transaperecy);
+}
+
+.notifications-content .notifications .notification:last-of-type {
+    margin-bottom: 10px;
+}
+
+.notifications-content .notifications .notification h4{
+    color: var(--gray);
+    margin-bottom: 1px;
+}
+
+.notifications-content .notifications .notification-content{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    column-gap: 5px;
+}
+
+.notifications-content .notifications .notification-content p{
+    color: var(--white);
+}
+
+.notifications-content .notifications .notification-content i{
+    font-size: 20px;
+    background-color: var(--glass);
+    padding: 7px;
+    border-radius: 8px;
+    color: coral;
+}
+
+.notifications-content .notifications .notification-content .sign{
+    width: 10px;
+    height: 10px;
+    background-color: var(--blue);
+    border-radius: 50%;
+    box-shadow: 0px 1px 10px 1px var(--blue);
 }
 
 .navigation .count {
@@ -312,6 +526,7 @@ body.expanded .app{
 
 .navigation .user-info .bx-search-alt-2:hover,
 .bxs-bell:hover,
+.bxs-bell-off,
 .bxs-cloud:hover {
     color: var(--white);
 }
@@ -507,6 +722,10 @@ body.expanded .app{
 .main-icons i:hover {
     background: var(--footer-shadow);
     transform: scale(1.05);
+}
+
+.main-icons i.active {
+    background: var(--footer-shadow);
 }
 
 .content .side-bar .main-icons {

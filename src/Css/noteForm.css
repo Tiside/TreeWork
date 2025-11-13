@@ -57,6 +57,10 @@
     background-color: var(--transaperecy);
 }
 
+.note-form .attributes .pills .pill.active{
+    background-color: var(--transaperecy);
+}
+
 .note-form .attributes .pills .pill p {
     margin: 0;
     color: var(--white);

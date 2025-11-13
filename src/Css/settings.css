@@ -32,10 +32,13 @@
 .choose-icon {
     display: flex;
     align-items: center;
+    justify-content: center;
+    text-align: center;
     gap: 12px;
     cursor: pointer;
     transition: transform 0.25s ease, background 0.25s ease;
 }
+
 
 .choose-icon i {
     font-size: 26px;
@@ -56,6 +59,13 @@
     color: #a855f7;
 }
 
+.change-links .icon img{
+    width: 45px;
+    height: 45px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
 .icon-now {
     display: flex;
     align-items: center;
@@ -63,6 +73,9 @@
 }
 
 .icon-now .icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 50px;
     height: 50px;
     border-radius: 12px;

@@ -1,6 +1,9 @@
 import "/src/Css/noteForm.css"
+import {useState} from "react";
 
 function NoteForm() {
+    const [activePill, setActivePill] = useState("");
+
     return (
         <>
             <form action="" className="note-form">
@@ -14,20 +17,38 @@ function NoteForm() {
                            placeholder="Add a short description about your note"/>
                 </div>
                 <div className="attributes">
-                    <label htmlFor="">Attributes</label>
+                    <label>Attributes</label>
+
                     <div className="pills">
-                        <div className="pill important">
+
+                        <div
+                            className={`pill important ${activePill === "important" ? "active" : ""}`}
+                            onClick={() => setActivePill("important")}
+                        >
                             <p>Important</p>
                         </div>
-                        <div className="pill very-important">
+
+                        <div
+                            className={`pill very-important ${activePill === "very-important" ? "active" : ""}`}
+                            onClick={() => setActivePill("very-important")}
+                        >
                             <p>Very Important</p>
                         </div>
-                        <div className="pill personal">
+
+                        <div
+                            className={`pill personal ${activePill === "personal" ? "active" : ""}`}
+                            onClick={() => setActivePill("personal")}
+                        >
                             <p>Personal</p>
                         </div>
-                        <div className="pill work">
+
+                        <div
+                            className={`pill work ${activePill === "work" ? "active" : ""}`}
+                            onClick={() => setActivePill("work")}
+                        >
                             <p>Work</p>
                         </div>
+
                     </div>
                 </div>
                 <div className="field">

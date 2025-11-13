@@ -10,6 +10,9 @@ const Calendar = () => {
     const [notification, setNotification] = useState("");
     const [selectedDate, setSelectedDate] = useState(null);
     const [newEvent, setNewEvent] = useState("");
+    const [timeFrom, setTimeFrom] = useState("");
+    const [timeTo, setTimeTo] = useState("");
+
 
     useEffect(() => {
         try {
@@ -51,13 +54,25 @@ const Calendar = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!selectedDate || !newEvent.trim()) return;
+
+        const trimmed = newEvent.trim();
+
+        const eventToAdd = {
+            title: trimmed,
+            from: timeFrom || "",
+            to: timeTo || "",
+        };
+
         setEvents((prev) => {
-            const updated = {...prev};
+            const updated = { ...prev };
             if (!updated[selectedDate]) updated[selectedDate] = [];
-            updated[selectedDate].push(newEvent.trim());
+            updated[selectedDate].push(eventToAdd);
             return updated;
         });
+
         setNewEvent("");
+        setTimeFrom("");
+        setTimeTo("");
         setSelectedDate(null);
     };
 
@@ -131,26 +146,36 @@ const Calendar = () => {
                 </div>
 
                 <div className="events">
-                    {dayEvents.map((e, i) => (
-                        <div className="this-event">
-                            <div className="event" key={i}>
-                                <p>
-                                    {e}
-                                </p>
+                    {dayEvents.map((e, i) => {
+                        const isString = typeof e === "string";
+                        const title = isString ? e : e.title;
+                        const from = isString ? "" : e.from;
+                        const to = isString ? "" : e.to;
 
-                                <button
-                                    className="remove"
-                                    onClick={(ev) => {
-                                        ev.stopPropagation();
-                                        handleRemoveEvent(key, i);
-                                    }}
-                                >
-                                    ✖
-                                </button>
+                        return (
+                            <div className="this-event" key={i}>
+                                <div className="event">
+                                    <p>{title}</p>
+
+                                    <button
+                                        className="remove"
+                                        onClick={(ev) => {
+                                            ev.stopPropagation();
+                                            handleRemoveEvent(key, i);
+                                        }}
+                                    >
+                                        ✖
+                                    </button>
+                                </div>
+
+                                {(from || to) && (
+                                    <span className="time">
+                        {from || "--:--"} - {to || "--:--"}
+                    </span>
+                                )}
                             </div>
-                            <span className="time">10:00 - 12:00 </span>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             </div>
         );
@@ -202,6 +227,28 @@ const Calendar = () => {
                             onChange={(e) => setNewEvent(e.target.value)}
                             placeholder="Nazwa wydarzenia"
                         />
+                        <div className="times">
+                            <div className="time">
+                                <label htmlFor="time-from">Time from</label>
+                                <input
+                                    type="time"
+                                    id="time-from"
+                                    value={timeFrom}
+                                    onChange={(e) => setTimeFrom(e.target.value)}
+                                />
+                            </div>
+                            <div className="time">
+                                <label htmlFor="time-to">Time to</label>
+                                <input
+                                    type="time"
+                                    id="time-to"
+                                    value={timeTo}
+                                    onChange={(e) => setTimeTo(e.target.value)}
+
+                                />
+                            </div>
+                        </div>
+
                         <div className="buttons">
                             <button type="submit" className="add-btn">Dodaj</button>
                             <button

@@ -1,0 +1,283 @@
+
+.cloud-wrap {
+    margin-top: 24px;
+    padding: 18px 20px;
+    border-radius: 24px;
+    background: var(--glass);
+    border: 1px solid var(--transaperecy);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    backdrop-filter: blur(18px);
+}
+
+.cloud-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: center;
+}
+
+.cloud-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.cloud-title i {
+    font-size: 26px;
+    padding: 8px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.cloud-title h3 {
+    margin: 0;
+    font-size: 16px;
+    color: var(--white);
+}
+
+.cloud-title span {
+    font-size: 12px;
+    color: var(--silver);
+}
+
+.cloud-header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+
+.cloud-space {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 11px;
+    color: var(--silver);
+}
+
+.cloud-space-bar {
+    width: 160px;
+    height: 6px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+}
+
+.cloud-space-fill {
+    width: 36%;
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #4f8bff, #96b7ff);
+}
+
+.cloud-space-info {
+    opacity: 0.9;
+}
+
+
+.cloud-upload-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--white);
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--transaperecy);
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.18s ease, box-shadow 0.2s ease;
+}
+
+.cloud-upload-btn i {
+    font-size: 16px;
+}
+
+.cloud-upload-btn input[type="file"] {
+    display: none;
+}
+
+.cloud-upload-btn:hover {
+    background: rgba(255, 255, 255, 0.16);
+    transform: translateY(-1px);
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.15);
+}
+
+.cloud-body {
+    display: grid;
+    grid-template-columns: minmax(220px, 1.1fr) minmax(340px, 1.7fr);
+    gap: 18px;
+}
+
+.cloud-dropzone {
+    border-radius: 18px;
+    padding: 18px 16px;
+    background: rgba(0, 0, 0, 0.45);
+    border: 1px dashed rgba(255, 255, 255, 0.15);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+}
+
+.cloud-drop-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 18px;
+    background: radial-gradient(circle at 30% 0%, #9ad0ff, #4f8bff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 18px 35px rgba(0, 0, 0, 0.5);
+}
+
+.cloud-drop-icon i {
+    font-size: 26px;
+    color: #f5f7ff;
+}
+
+.cloud-dropzone h4 {
+    margin: 0;
+    font-size: 14px;
+    color: var(--white);
+}
+
+.cloud-dropzone p {
+    margin: 0;
+    font-size: 12px;
+    color: var(--silver);
+}
+
+.cloud-drop-hint {
+    margin-top: 4px;
+    font-size: 11px;
+    color: var(--silver);
+    opacity: 0.9;
+}
+
+.cloud-files {
+    border-radius: 18px;
+    padding: 14px 0;
+    background: rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    display: flex;
+    flex-direction: column;
+}
+
+.cloud-files-header,
+.cloud-file-row {
+    display: grid;
+    grid-template-columns: minmax(160px, 2.2fr) 0.7fr 1fr 0.8fr 0.6fr;
+    align-items: center;
+    padding: 6px 14px;
+    column-gap: 10px;
+}
+
+.cloud-files-header {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--silver);
+    opacity: 0.8;
+}
+
+.cloud-files-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 4px;
+    max-height: 240px;
+    overflow-y: auto;
+}
+
+.cloud-file-row {
+    font-size: 12px;
+    color: var(--white);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.02);
+    cursor: pointer;
+    transition: background 0.18s ease, transform 0.16s ease;
+}
+
+.cloud-file-row:hover {
+    background: var(--cool-gray-color);
+    transform: translateY(-1px);
+}
+
+.cf-main {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cf-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: #f5f7ff;
+}
+
+.cf-icon.image {
+    background: linear-gradient(135deg, #4f8bff, #9fd1ff);
+}
+.cf-icon.doc {
+    background: linear-gradient(135deg, #6b7cff, #b2b7ff);
+}
+.cf-icon.zip {
+    background: linear-gradient(135deg, #ffb347, #ff7b47);
+}
+
+.cf-title {
+    display: block;
+    font-size: 12px;
+    color: var(--white);
+}
+
+.cf-sub {
+    display: block;
+    font-size: 11px;
+    color: var(--silver);
+    opacity: 0.85;
+}
+
+
+.cf-size,
+.cf-date,
+.cf-type {
+    font-size: 11px;
+    color: var(--silver);
+}
+
+
+.cf-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    justify-content: flex-end;
+    font-size: 16px;
+    color: var(--silver);
+}
+
+.cf-actions i {
+    padding: 4px;
+    border-radius: 999px;
+    transition: background 0.18s ease, transform 0.16s ease;
+}
+
+.cf-actions i:hover {
+    background: rgba(255, 255, 255, 0.12);
+    transform: translateY(-1px);
+}
+
+@media (max-width: 900px) {
+    .cloud-body {
+        grid-template-columns: 1fr;
+    }
+}

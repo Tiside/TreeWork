@@ -1,26 +1,93 @@
 import "/src/Css/settings.css"
+import {useEffect, useRef, useState} from "react";
 
 function Settings() {
+    const [showLinks, setShowLinks] = useState(false);
+    const [iconPreview, setIconPreview] = useState(null);   // картинка для .icon
+
+    const toggleLinks = () => {
+        setShowLinks(prev => !prev);
+    };
+
+
+    const fileInputRef = useRef(null);
+
+    const handleChooseIconClick = () => {
+        if (fileInputRef.current) {
+            fileInputRef.current.click();  // открыть окно выбора файла
+        }
+    };
+
+    const handleFileChange = (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        const url = URL.createObjectURL(file);
+        setIconPreview((prev) => {
+            if (prev) URL.revokeObjectURL(prev); // чистим старый объект
+            return url;
+        });
+    };
+
+    const handleCancel = () => {
+        setShowLinks(false);  // прячем блок
+        // если хочешь ещё и чистить иконку — раскомментируй:
+        // setIconPreview(null);
+    };
+
+    // Чистим URL при размонтировании
+    useEffect(() => {
+        return () => {
+            if (iconPreview) URL.revokeObjectURL(iconPreview);
+        };
+    }, [iconPreview]);
     return (
         <>
 
-            {/*<div className="change-links">*/}
-            {/*    <div className="change-content">*/}
-            {/*        <div className="choose-icon">*/}
-            {/*            <i className='bx bx-image-add'></i>*/}
-            {/*            <p>Add image to change</p>*/}
-            {/*        </div>*/}
-            {/*        <div className="icon-now">*/}
-            {/*            <div className="icon"></div>*/}
-            {/*        </div>*/}
-            {/*    </div>*/}
-            {/*    <label htmlFor="link">Link</label>*/}
-            {/*    <input type="link" id="link" placeholder="Enter your link" />*/}
-            {/*    <div className="buttons">*/}
-            {/*        <button className="cncl-btn">Cancel</button>*/}
-            {/*        <button className="apply-btn">Apply</button>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
+            <div
+                className="change-links"
+                style={{ display: showLinks ? "flex" : "none" }}
+            >
+                <div className="change-content">
+                    <div className="choose-icon" onClick={handleChooseIconClick}>
+                        <i className="bx bx-image-add"></i>
+                        <p>Add image to change</p>
+                    </div>
+
+                    {/* Скрытый input для выбора изображения */}
+                    <input
+                        type="file"
+                        accept="image/*"
+                        ref={fileInputRef}
+                        style={{ display: "none" }}
+                        onChange={handleFileChange}
+                    />
+
+                    <div className="icon-now">
+                        <div className="icon">
+                            {iconPreview && (
+                                <img src={iconPreview} alt="icon" />
+                            )}
+                        </div>
+                    </div>
+                </div>
+
+                <label htmlFor="link">Link</label>
+                <input type="link" id="link" placeholder="Enter your link" />
+
+                <div className="buttons">
+                    <button
+                        className="cncl-btn"
+                        type="button"
+                        onClick={handleCancel}
+                    >
+                        Cancel
+                    </button>
+                    <button className="apply-btn" type="button">
+                        Apply
+                    </button>
+                </div>
+            </div>
 
             <div className="settings">
                 <div className="personal-info-content">
@@ -34,7 +101,7 @@ function Settings() {
                             <input type="mail" id="mail" name="mail" placeholder="cosfajnego@gmail.com"/>
                         </div>
                         <div className="phone">
-                            <label htmlFor="phone-number">Email</label>
+                            <label htmlFor="phone-number">Phone Number</label>
                             <input type="number" id="phone-number" name="phone-number" placeholder="123 456 789"/>
                         </div>
                     </div>
@@ -106,17 +173,17 @@ function Settings() {
                         <div className="link">
                             <img src="/IMG/link-alt-regular-24.png" alt=""/>
                             <input type="link" id="link-lin" placeholder="Enter your link"/>
-                            <button className="edit-btn">Edit</button>
+                            <button className="edit-btn" onClick={toggleLinks}>Edit</button>
                         </div>
                         <div className="link">
                             <img src="/IMG/link-alt-regular-24.png" alt=""/>
                             <input type="link" id="link-inst" placeholder="Enter your link"/>
-                            <button className="edit-btn">Edit</button>
+                            <button className="edit-btn" onClick={toggleLinks}>Edit</button>
                         </div>
                         <div className="link">
                             <img src="/IMG/link-alt-regular-24.png" alt=""/>
                             <input type="link" id="link-face" placeholder="Enter your link"/>
-                            <button className="edit-btn">Edit</button>
+                            <button className="edit-btn" onClick={toggleLinks}>Edit</button>
                         </div>
                     </div>
                 </div>

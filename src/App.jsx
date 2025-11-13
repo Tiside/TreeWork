@@ -17,11 +17,12 @@ import NoteTemplate from "./Pages/NoteTemplate.jsx";
 import NoteForm from "./Pages/NoteForm.jsx";
 import Profile from "./Pages/Profile.jsx";
 import Settings from "./Pages/Settings.jsx";
+import Cloud from "./Pages/Cloud.jsx";
 
 function App() {
     const [showIntro, setShowIntro] = useState(true);
     const navigate = useNavigate();
-
+    const [externalSearchTrigger, setExternalSearchTrigger] = useState(false);
     useEffect(() => {
         if (!showIntro) {
             document.body.classList.add("no-bg");
@@ -32,7 +33,7 @@ function App() {
     return (
         <>
             <OverlayIntro/>
-        {/*{showIntro && <Intro onFinish={() => setShowIntro(false)}/>}*/}
+            {/*{showIntro && <Intro onFinish={() => setShowIntro(false)}/>}*/}
 
             {/*<div className="background">*/}
             {/*    <video autoPlay loop muted playsInline id="bg-video">*/}
@@ -45,17 +46,20 @@ function App() {
                     <Route path="/login" element={<Login/>}/>
                 </Routes>
                 <div className="main">
-                    <Navigation/>
+                    <Navigation openSearchExternally={externalSearchTrigger} />
                     <div className="content">
                         <Sidebar/>
                         <div className="app">
                             <Routes>
-                                <Route path="/notes" element={<Notes/>}/>
+                                <Route path="/notes" element={
+                                    <Notes setExternalSearchTrigger={setExternalSearchTrigger} />
+                                } />
                                 <Route path="/calendar" element={<Calendar/>}/>
                                 <Route path="/noteName" element={<NoteTemplate/>}/>
                                 <Route path="/noteForm" element={<NoteForm/>}/>
                                 <Route path="/profile" element={<Profile/>}/>
                                 <Route path="/settings" element={<Settings/>}/>
+                                <Route path="/cloud" element={<Cloud/>}/>
                             </Routes>
                         </div>
                     </div>

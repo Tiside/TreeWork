@@ -1,15 +1,28 @@
-import {useState} from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-    const [activeTab, setActiveTab] = useState("login"); // 'login' | 'register'
+    const [activeTab, setActiveTab] = useState("login");
     const [showPwdLogin, setShowPwdLogin] = useState(false);
     const [showPwdReg, setShowPwdReg] = useState(false);
+
+    const navigate = useNavigate();
+
+    const handleLoginSubmit = (e) => {
+        e.preventDefault();          // не даём форме перезагрузить страницу
+        navigate("/notes");          // ← вот тут статично переходим на главную
+    };
+
+    const handleRegisterSubmit = (e) => {
+        e.preventDefault();
+        // пока также просто шлём на /notes
+        navigate("/notes");
+    };
 
     return (
         <div className="main-form">
             <div className="additional-info">
                 <div className="header">
-                    {/* если файл в public/, путь просто /logo2.png */}
                     <img src="/logo2.png" alt=""/>
                     <h3>Tree Work</h3>
                 </div>
@@ -22,7 +35,6 @@ export default function Login() {
             </div>
 
             <div className="forms">
-                {/* переключатель вкладок */}
                 <div className="buttons-change">
                     <button
                         id="btnLogin"
@@ -42,7 +54,12 @@ export default function Login() {
 
                 {/* LOGIN */}
                 {activeTab === "login" && (
-                    <form className="login-form form-pane show" id="loginForm" autoComplete="on">
+                    <form
+                        className="login-form form-pane show"
+                        id="loginForm"
+                        autoComplete="on"
+                        onSubmit={handleLoginSubmit}
+                    >
                         <div className="field">
                             <i className="bx bx-at input-icon"></i>
                             <input type="email" name="email" placeholder="Email" required/>
@@ -89,7 +106,12 @@ export default function Login() {
 
                 {/* REGISTER */}
                 {activeTab === "register" && (
-                    <form className="registration-form form-pane show" id="registerForm" autoComplete="on">
+                    <form
+                        className="registration-form form-pane show"
+                        id="registerForm"
+                        autoComplete="on"
+                        onSubmit={handleRegisterSubmit}
+                    >
                         <div className="field">
                             <i className="bx bx-user input-icon"></i>
                             <input type="text" name="name" placeholder="Full name" required/>

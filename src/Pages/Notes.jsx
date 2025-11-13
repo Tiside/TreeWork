@@ -1,8 +1,9 @@
 import "/src/Css/notes.css"
 import {useEffect} from "react";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
-function Notes() {
+function Notes({ setExternalSearchTrigger }) {
+    const navigate = useNavigate();
     useEffect(() => {
         const buttons = document.querySelectorAll(".notes-nav .filters .text-icon");
 
@@ -43,6 +44,41 @@ function Notes() {
             document.removeEventListener("click", closeAll);
         };
     }, []);
+
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            // чтобы не срабатывало, если печатаешь в инпуте/текстареа
+            const tag = e.target.tagName.toLowerCase();
+            const isEditable = e.target.isContentEditable;
+            if (tag === "input" || tag === "textarea" || isEditable) return;
+
+            if (e.key === "n" || e.key === "N") {
+                e.preventDefault();
+                navigate("/noteForm");
+            }
+        };
+
+        window.addEventListener("keydown", handleKeyDown);
+
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown);
+        };
+    }, [navigate]);
+
+    useEffect(() => {
+        const handleKey = (e) => {
+            const tag = e.target.tagName.toLowerCase();
+            if (tag === "input" || tag === "textarea" || e.target.isContentEditable) return;
+
+            if (e.key === "/") {
+                e.preventDefault();
+                setExternalSearchTrigger(prev => !prev);
+            }
+        };
+
+        window.addEventListener("keydown", handleKey);
+        return () => window.removeEventListener("keydown", handleKey);
+    }, [setExternalSearchTrigger]);
     return (
         <>
             <div className="notes-keybinds">
@@ -135,8 +171,10 @@ function Notes() {
                                     <div className="tag">#work</div>
                                     <div className="tag">#important</div>
                                 </div>
-
-                                <p>06.11.2025</p>
+                                <div className="date-pin">
+                                    <p>06.11.2025</p>
+                                    <i className='bx bx-pin'></i>
+                                </div>
                             </div>
                         </div>
                     </Link>
@@ -153,7 +191,10 @@ function Notes() {
                             </div>
                             <div className="info-note">
                                 <div className="tag"></div>
-                                <p>06.11.2025</p>
+                                <div className="date-pin">
+                                    <p>06.11.2025</p>
+                                    <i className='bx bx-pin'></i>
+                                </div>
                             </div>
                         </div>
                     </Link>
@@ -168,7 +209,10 @@ function Notes() {
                             </div>
                             <div className="info-note">
                                 <div className="tag"></div>
-                                <p>06.11.2025</p>
+                                <div className="date-pin">
+                                    <p>06.11.2025</p>
+                                    <i className='bx bx-pin'></i>
+                                </div>
                             </div>
                         </div>
                     </Link>
@@ -183,7 +227,10 @@ function Notes() {
                             </div>
                             <div className="info-note">
                                 <div className="tag"></div>
-                                <p>06.11.2025</p>
+                                <div className="date-pin">
+                                    <p>06.11.2025</p>
+                                    <i className='bx bx-pin'></i>
+                                </div>
                             </div>
                         </div>
                     </Link>

@@ -61,14 +61,19 @@
 }
 
 .change-pfp .change-content .active-pfp .user-pfp {
-    border: 1px solid var(--white);
-    padding: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    width: 100%;
+    height: auto;
+
+}
+.change-pfp .change-content .active-pfp .user-pfp img{
+    width: 100%;
+    height: 74px;
     border-radius: 100%;
-    background-image: url("/public/IMG/piderman.jpg");
-    background-position: center;
-    background-size: cover;
-    cursor: pointer;
-    transition: all 0.3s ease;
+    object-fit: cover;
 }
 
 .change-pfp .buttons {
@@ -113,6 +118,7 @@
 .profile-container {
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
 }
 
 .profile-container .profile-header h2 {
