@@ -1,0 +1,149 @@
+
+.note-form {
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+}
+
+.note-form .field label,
+.note-form .attributes label {
+    color: var(--white);
+    margin: 10px 0;
+}
+
+.note-form .field .input {
+    border: 1px solid var(--light-gray-color);
+    cursor: pointer;
+    width: auto;
+    display: flex;
+    padding: 12px 44px 12px 10px;
+}
+
+.note-form .attributes .pills {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+    margin-top: 10px;
+}
+
+.note-form .attributes .pills .pill {
+    border: 1px solid var(--light-gray-color);
+    background-color: var(--glass);
+    border-radius: 20px;
+    padding: 12px 10px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+}
+
+.note-form .attributes .pills .important {
+    box-shadow: 0px 1px 10px 0px greenyellow;
+}
+
+.note-form .attributes .pills .very-important {
+    box-shadow: 0px 1px 10px 0px red;
+}
+
+.note-form .attributes .pills .personal {
+    box-shadow: 0px 1px 10px 0px blue;
+}
+
+.note-form .attributes .pills .work {
+    box-shadow: 0px 1px 10px 0px grey;
+
+}
+
+.note-form .attributes .pills .pill:hover {
+    transform: translateY(-5px);
+    background-color: var(--transaperecy);
+}
+
+.note-form .attributes .pills .pill p {
+    margin: 0;
+    color: var(--white);
+}
+
+.note-form .tags-count {
+    margin-top: 10px;
+    color: var(--white);
+}
+
+.note-form .buttons {
+    display: flex;
+    justify-content: end;
+    column-gap: 10px;
+}
+
+.note-form .buttons .clear-btn {
+    border: 1px solid var(--light-gray-color);
+    border-radius: 20px;
+    color: var(--white);
+    background-color: var(--transaperecy);
+    padding: 8px 20px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+}
+
+.note-form .buttons .clear-btn:hover {
+    background-color: var(--glass);
+}
+
+.note-form .buttons .save-btn {
+    border: 1px solid var(--silver);
+    border-radius: 20px;
+    color: var(--white);
+    background-color: var(--more-blue);
+    width: 100px;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.note-form .buttons .save-btn i {
+    position: absolute;
+    top: -10px;
+    left: 45%;
+    opacity: 0;
+    z-index: 0;
+    transition: all 0.4s ease;
+}
+
+.note-form .buttons .save-btn span {
+    position: absolute;
+    transition: all 0.4s ease;
+    top: 8px;
+    width: 100%;
+    left: 0;
+}
+
+.note-form .buttons .save-btn:hover span {
+    position: absolute;
+    top: -10px;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    z-index: 0;
+}
+
+.note-form .buttons .save-btn:hover i {
+    top: 10px;
+    opacity: 1;
+    z-index: 1;
+}
+
+.note-form .tags-wrap {
+    margin: 10px 0;
+}
+
+.note-form .tags-wrap .tags {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+}
+
+.note-form .tags-wrap .tags .tag {
+    border: 1px solid var(--light-gray-color);
+    background: linear-gradient(90deg, #73b3ff, #a855f7);
+    border-radius: 15px;
+    padding: 5px 15px;
+    color: var(--white);
+}

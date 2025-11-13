@@ -1,6 +1,6 @@
-
 import "/src/Css/noteTemplate.css"
-function NoteTemplate(){
+
+function NoteTemplate() {
     return (
         <>
             <div className="user-note">
@@ -20,8 +20,10 @@ function NoteTemplate(){
                 </div>
                 <div className="main-content-note">
                     <h1 className="title">Note Title</h1>
-                    <p className="introduction">Introduction to the topic. Use <mark>highlights</mark> , short code snippets, and
-                        links.</p>
+                    <p className="introduction">Introduction to the topic. Use <mark>highlights</mark> , short code
+                        snippets, and
+                        links.
+                    </p>
 
                     <h2>CheckList(Today)</h2>
                     <ul className="checklist" id="todo">

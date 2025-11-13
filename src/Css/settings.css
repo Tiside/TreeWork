@@ -1,0 +1,309 @@
+
+.change-links {
+    position: absolute;
+    top: 30%;
+    left: 30%;
+    background: rgba(39, 38, 38, 0.9);
+    border: 1px solid var(--transaperecy);
+    border-radius: 18px;
+    padding: 24px;
+    color: #e8eef6;
+    width: min(500px, 95%);
+    margin: 0 auto;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-bottom: 20px;
+}
+
+.change-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--transaperecy);
+    border-radius: 14px;
+    padding: 16px 18px;
+    border: 1px solid var(--light-gray-color);
+}
+
+.choose-icon {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.choose-icon i {
+    font-size: 26px;
+    color: var(--blue);
+    transition: color 0.3s ease;
+}
+
+.choose-icon p {
+    font-size: 14px;
+    color: var(--silver);
+}
+
+.choose-icon:hover {
+    transform: translateY(-2px);
+}
+
+.choose-icon:hover i {
+    color: #a855f7;
+}
+
+.icon-now {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-now .icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(115, 179, 255, 0.3), rgba(168, 85, 247, 0.25));
+    border: 1px solid var(--light-gray-color);
+    box-shadow: 0 0 8px rgba(115, 179, 255, 0.25);
+}
+
+.change-links label {
+    font-size: 14px;
+    color: #b6c2d1;
+    margin-left: 2px;
+}
+
+.change-links input {
+    width: 95%;
+    background: var(--transaperecy);
+    border: 1px solid var(--light-gray-color);
+    border-radius: 12px;
+    padding: 10px 12px;
+    font-size: 14px;
+    color: var(--white);
+    outline: none;
+    transition: border 0.25s ease, box-shadow 0.25s ease;
+}
+
+
+.buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 6px;
+}
+
+.cncl-btn,
+.apply-btn {
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.25s ease;
+}
+
+.cncl-btn {
+    background: var(--card);
+    color: var(--white);
+    border: 1px solid var(--light-gray-color);
+}
+
+.cncl-btn:hover {
+    background: var(--transaperecy);
+    transform: translateY(-1px);
+}
+
+.apply-btn {
+    background: var(--more-blue);
+    color: var(--white);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.apply-btn:hover {
+    background: var(--blue);
+    transform: translateY(-1px);
+}
+
+
+.settings {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    overflow-y: auto;
+    height: 65.5vh;
+}
+
+body.expanded .settings {
+    height: 85vh;
+}
+
+.content .settings::-webkit-scrollbar {
+    width: 4px;
+    z-index: 0;
+}
+
+.content .settings::-webkit-scrollbar-thumb {
+    background-color: var(--transaperecy);
+    /* border-radius: 10px; */
+    border: 3px solid var(--transaperecy);
+    z-index: 0;
+}
+
+.content .settings::-webkit-scrollbar-track {
+    border-radius: 10px;
+    z-index: 0;
+}
+
+.personal-info-content,
+.password-content,
+.preference-content,
+.social-content,
+.link-content {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--light-gray-color);
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.link-content {
+    margin-bottom: 20px;
+}
+
+.settings .nav-container {
+    color: var(--silver);
+    font-size: 18px;
+    border-bottom: 1px solid var(--light-gray-color);
+    margin-bottom: 10px;
+}
+
+.settings .personal-info-content .user-pfp {
+    border: 1px solid var(--white);
+    padding: 30px;
+    border-radius: 100%;
+    background-image: url("/public/IMG/piderman.jpg");
+    background-position: center;
+    background-size: cover;
+    cursor: pointer;
+    width: 0.2%;
+    object-fit: cover;
+    margin-bottom: 15px;
+}
+
+.settings .personal-info-content .info,
+.settings .password-content .passwords,
+.settings .preference-content .preferences {
+    display: flex;
+    column-gap: 10px;
+}
+
+.settings .personal-info-content .info div:nth-of-type(1),
+.settings .password-content .passwords div:nth-of-type(1),
+.settings .preference-content .preferences div {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    color: var(--white);
+}
+
+.settings .personal-info-content .info div:nth-of-type(2),
+.settings .password-content .passwords div:nth-of-type(2) {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    color: var(--white);
+}
+
+.settings .password-content .passwords div:nth-of-type(3) {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    color: var(--white);
+}
+
+.settings .personal-info-content .info div input,
+.settings .password-content .passwords div input,
+.settings .preference-content .preferences div select {
+    padding: 10px 5px;
+    border: 1px solid var(--light-gray-color);
+    background-color: var(--transaperecy);
+    border-radius: 10px;
+    color: var(--white);
+}
+
+.settings .social-content .socials,
+.settings .link-content .links {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+
+.settings .social-content .socials .social,
+.settings .link-content .links .link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.settings .social-content .socials .social i,
+.settings .link-content .links .link img {
+    font-size: 20px;
+    color: var(--white);
+}
+
+.settings .social-content .socials .social input,
+.settings .link-content .links .link input {
+    border: 1px solid var(--light-gray-color);
+    border-radius: 10px;
+    background-color: var(--transaperecy);
+    padding: 7px 10px;
+    color: var(--white);
+}
+
+.settings .social-content .socials .social .apply-btn,
+.settings .link-content .links .link .edit-btn {
+    border: 1px solid var(--silver);
+    border-radius: 20px;
+    color: var(--white);
+    background-color: var(--more-blue);
+    padding: 5px 20px;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.4s ease;
+}
+
+.settings .social-content .socials .social .apply-btn:hover {
+    background-color: var(--blue);
+}
+
+.settings .link-content .links .link .edit-btn {
+    border: 1px solid var(--light-gray-color);
+    border-radius: 20px;
+    color: var(--white);
+    background-color: var(--transaperecy);
+    padding: 5px 20px;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.4s ease;
+}
+
+.settings .link-content .links .link .edit-btn:hover {
+    background-color: var(--glass);
+}
+
+
+
+
+

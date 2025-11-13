@@ -1,25 +1,22 @@
-
 import "/src/Css/notes.css"
 import {useEffect} from "react";
 import {Link} from "react-router-dom";
-function Notes(){
+
+function Notes() {
     useEffect(() => {
         const buttons = document.querySelectorAll(".notes-nav .filters .text-icon");
 
         const handleClick = (e) => {
             e.stopPropagation();
 
-            const parent = e.currentTarget.parentElement; // .validity или .date
+            const parent = e.currentTarget.parentElement;
             const filtered = parent.querySelector(".filtered");
 
-            // переключаем show у filtered
             filtered.classList.toggle("show");
 
-            // переключаем show у самих пунктов
             const items = filtered.querySelectorAll("p");
             items.forEach(p => p.classList.toggle("show"));
 
-            // поворот стрелки
             const icon = e.currentTarget.querySelector("i");
             if (icon) {
                 icon.style.transition = "transform 0.3s ease";
@@ -31,7 +28,6 @@ function Notes(){
 
         buttons.forEach(btn => btn.addEventListener("click", handleClick));
 
-        // закрытие при клике вне фильтров
         const closeAll = (e) => {
             if (!e.target.closest(".notes-nav .filters")) {
                 document.querySelectorAll(".filtered.show").forEach(f => f.classList.remove("show"));
@@ -67,10 +63,12 @@ function Notes(){
             </div>
             <div className="notes-nav">
                 <div className="create">
-                    <div className="create-nav">
-                        <i className='bx bx-message-alt-add'></i>
-                        <p>Create new</p>
-                    </div>
+                    <Link to="/noteForm">
+                        <div className="create-nav">
+                            <i className='bx bx-message-alt-add'></i>
+                            <p>Create new</p>
+                        </div>
+                    </Link>
                     {/*<div className="notes-to-create">*/}
                     {/*    <div className="select-to-create important">*/}
                     {/*        <i className='bx bxs-notepad'></i>*/}
@@ -151,7 +149,7 @@ function Notes(){
                             </div>
                             <div className="description">
                                 <p>Zrobienie notatek na stronie
-                                dasda</p>
+                                    dasda</p>
                             </div>
                             <div className="info-note">
                                 <div className="tag"></div>
@@ -189,8 +187,6 @@ function Notes(){
                             </div>
                         </div>
                     </Link>
-
-
 
 
                 </div>

@@ -14,6 +14,9 @@ import OverlayIntro from "./opensite.jsx";
 import Notes from "./Pages/Notes.jsx";
 import Calendar from "./Pages/Calendar.jsx";
 import NoteTemplate from "./Pages/NoteTemplate.jsx";
+import NoteForm from "./Pages/NoteForm.jsx";
+import Profile from "./Pages/Profile.jsx";
+import Settings from "./Pages/Settings.jsx";
 
 function App() {
     const [showIntro, setShowIntro] = useState(true);
@@ -50,6 +53,9 @@ function App() {
                                 <Route path="/notes" element={<Notes/>}/>
                                 <Route path="/calendar" element={<Calendar/>}/>
                                 <Route path="/noteName" element={<NoteTemplate/>}/>
+                                <Route path="/noteForm" element={<NoteForm/>}/>
+                                <Route path="/profile" element={<Profile/>}/>
+                                <Route path="/settings" element={<Settings/>}/>
                             </Routes>
                         </div>
                     </div>

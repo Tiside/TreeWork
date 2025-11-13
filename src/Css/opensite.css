@@ -7,10 +7,9 @@
     align-items: center;
     overflow: hidden;
 
-    background:
-            radial-gradient(1200px 800px at 90% -10%, rgba(115,179,255,.12), transparent 60%),
-            radial-gradient(900px 600px at -10% 110%, rgba(168,85,247,.10), transparent 55%),
-            rgba(5, 10, 20, 0.99);
+    background: radial-gradient(1200px 800px at 90% -10%, rgba(115, 179, 255, .12), transparent 60%),
+    radial-gradient(900px 600px at -10% 110%, rgba(168, 85, 247, .10), transparent 55%),
+    rgba(5, 10, 20, 0.99);
     transition: opacity 1s ease 1.3s;
 }
 
@@ -22,12 +21,11 @@
     width: 80px;
     height: 80px;
     cursor: pointer;
-    transition:
-            transform 0.3s ease,
-            border-radius 1.2s ease,
-            width 1.2s ease,
-            height 1.2s ease,
-            background 1.2s ease;
+    transition: transform 0.3s ease,
+    border-radius 1.2s ease,
+    width 1.2s ease,
+    height 1.2s ease,
+    background 1.2s ease;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -43,11 +41,11 @@
 @keyframes pulse {
     0%, 100% {
         transform: scale(1);
-        box-shadow: 0 0 20px rgba(255,255,255,0.25);
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.25);
     }
     50% {
         transform: scale(1.08);
-        box-shadow: 0 0 40px rgba(255,255,255,0.35);
+        box-shadow: 0 0 40px rgba(255, 255, 255, 0.35);
     }
 }
 
@@ -64,10 +62,9 @@
     box-shadow: none;
     border: none;
     backdrop-filter: none;
-    transition:
-            width 1.5s ease-in-out,
-            height 1.5s ease-in-out,
-            background 1s ease-in-out;
+    transition: width 1.5s ease-in-out,
+    height 1.5s ease-in-out,
+    background 1s ease-in-out;
 }
 
 
