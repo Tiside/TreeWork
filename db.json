@@ -1,0 +1,37 @@
+{
+  "files": [
+    {
+      "id": "1763111895733-bpf6v0b",
+      "originalName": "dashboard-preview.png",
+      "storageName": "dashboard-preview.png",
+      "sizeBytes": 45,
+      "size": "45 B",
+      "mimeType": null,
+      "type": "Image",
+      "modified": "2025-05-07T12:00:00.000Z",
+      "url": "/uploads/dashboard-preview.png"
+    },
+    {
+      "id": "1763111895734-d0t1xae",
+      "originalName": "TreeWork-notes.md",
+      "storageName": "TreeWork-notes.md",
+      "sizeBytes": 41,
+      "size": "41 B",
+      "mimeType": null,
+      "type": "Document",
+      "modified": "2025-05-03T12:00:00.000Z",
+      "url": "/uploads/TreeWork-notes.md"
+    },
+    {
+      "id": "1763111895734-jc488mc",
+      "originalName": "assets-pack.zip",
+      "storageName": "assets-pack.zip",
+      "sizeBytes": 39,
+      "size": "39 B",
+      "mimeType": null,
+      "type": "Archive",
+      "modified": "2025-04-28T12:00:00.000Z",
+      "url": "/uploads/assets-pack.zip"
+    }
+  ]
+}

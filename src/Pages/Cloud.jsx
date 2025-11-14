@@ -1,6 +1,117 @@
+import React, { useEffect, useRef, useState } from "react";
+import "/src/Css/cloud.css";
 
-import "/src/Css/cloud.css"
-function Cloud(){
+function Cloud() {
+    const [files, setFiles] = useState([]);
+    const dropRef = useRef(null);
+
+    // =========================================================================
+    // LOAD FILES
+    // =========================================================================
+    const loadFiles = async () => {
+        try {
+            const res = await fetch("http://localhost:4001/files");
+            if (!res.ok) throw new Error("Failed to fetch files");
+            const data = await res.json();
+            setFiles(data || []);
+        } catch (err) {
+            console.error("loadFiles error:", err);
+        }
+    };
+
+    useEffect(() => {
+        loadFiles();
+    }, []);
+
+    // =========================================================================
+    // UPLOAD FILES
+    // =========================================================================
+    const uploadFiles = async (fileList) => {
+        if (!fileList || fileList.length === 0) return;
+
+        const fd = new FormData();
+        for (const f of fileList) fd.append("files", f);
+
+        try {
+            await fetch("http://localhost:4001/upload", {
+                method: "POST",
+                body: fd,
+            });
+        } catch (err) {
+            console.error("Upload error:", err);
+        }
+
+        // WAŻNE — backend potrzebuje chwilki, aby zapisać pliki
+        setTimeout(() => {
+            loadFiles();
+        }, 200);
+    };
+
+    // =========================================================================
+    // INPUT FILE HANDLER
+    // =========================================================================
+    const handleFileInput = (e) => {
+        uploadFiles(e.target.files);
+        e.target.value = "";
+    };
+
+    // =========================================================================
+    // DRAG & DROP HANDLING
+    // =========================================================================
+    useEffect(() => {
+        const dropArea = dropRef.current;
+        if (!dropArea) return;
+
+        const preventDefaults = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+        };
+
+        const highlight = () => dropArea.classList.add("drag-over");
+        const unhighlight = () => dropArea.classList.remove("drag-over");
+
+        const handleDrop = (e) => {
+            preventDefaults(e);
+            unhighlight();
+            const dt = e.dataTransfer;
+            if (dt && dt.files.length > 0) {
+                uploadFiles(dt.files);
+            }
+        };
+
+        ["dragenter", "dragover", "dragleave", "drop"].forEach((eventName) =>
+            dropArea.addEventListener(eventName, preventDefaults, false)
+        );
+
+        dropArea.addEventListener("dragover", highlight);
+        dropArea.addEventListener("dragenter", highlight);
+        dropArea.addEventListener("dragleave", unhighlight);
+        dropArea.addEventListener("drop", handleDrop);
+
+        return () => {
+            ["dragenter", "dragover", "dragleave", "drop"].forEach((eventName) =>
+                dropArea.removeEventListener(eventName, preventDefaults)
+            );
+            dropArea.removeEventListener("dragover", highlight);
+            dropArea.removeEventListener("dragenter", highlight);
+            dropArea.removeEventListener("dragleave", unhighlight);
+            dropArea.removeEventListener("drop", handleDrop);
+        };
+    }, []);
+
+    // =========================================================================
+    // FORMAT DATE
+    // =========================================================================
+    const fmtDate = (iso) =>
+        new Date(iso).toLocaleDateString("en-GB", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+        });
+
+    // =========================================================================
+    // JSX
+    // =========================================================================
     return (
         <>
             <div className="cloud-wrap">
@@ -17,7 +128,7 @@ function Cloud(){
                         <div className="cloud-space">
                             <span>Storage</span>
                             <div className="cloud-space-bar">
-                                <div className="cloud-space-fill"></div>
+                                <div className="cloud-space-fill" style={{ width: "36%" }}></div>
                             </div>
                             <span className="cloud-space-info">18.4 GB / 50 GB</span>
                         </div>
@@ -25,13 +136,14 @@ function Cloud(){
                         <label className="cloud-upload-btn">
                             <i className="bx bx-upload"></i>
                             <span>Upload file</span>
-                            <input type="file" multiple/>
+                            <input type="file" multiple onChange={handleFileInput} />
                         </label>
                     </div>
                 </div>
 
                 <div className="cloud-body">
-                    <div className="cloud-dropzone">
+                    {/* DROP AREA */}
+                    <div className="cloud-dropzone" ref={dropRef}>
                         <div className="cloud-drop-icon">
                             <i className="bx bxs-cloud-upload"></i>
                         </div>
@@ -42,6 +154,7 @@ function Cloud(){
                         </div>
                     </div>
 
+                    {/* FILE LIST */}
                     <div className="cloud-files">
                         <div className="cloud-files-header">
                             <span className="cf-name">Name</span>
@@ -52,69 +165,57 @@ function Cloud(){
                         </div>
 
                         <div className="cloud-files-list">
-                            <div className="cloud-file-row">
-                                <div className="cf-main">
-                                    <div className="cf-icon image">
-                                        <i className="bx bxs-image"></i>
-                                    </div>
-                                    <div className="cf-text">
-                                        <span className="cf-title">dashboard-preview.png</span>
-                                        <span className="cf-sub">In: /UI concepts</span>
-                                    </div>
-                                </div>
-                                <span className="cf-size">2.1 MB</span>
-                                <span className="cf-date">07 May 2025</span>
-                                <span className="cf-type">Image</span>
-                                <div className="cf-actions">
-                                    <i className="bx bx-download"></i>
-                                    <i className="bx bx-dots-horizontal-rounded"></i>
-                                </div>
-                            </div>
+                            {files.map((file) => (
+                                <div className="cloud-file-row" key={file.id || file.storageName}>
+                                    <div className="cf-main">
+                                        <div className={`cf-icon ${file.type?.toLowerCase()}`}>
+                                            <i
+                                                className={
+                                                    file.type === "Image"
+                                                        ? "bx bxs-image"
+                                                        : file.type === "Document"
+                                                            ? "bx bxs-file-txt"
+                                                            : file.type === "Archive"
+                                                                ? "bx bxs-file-archive"
+                                                                : "bx bxs-file"
+                                                }
+                                            ></i>
+                                        </div>
 
-                            <div className="cloud-file-row">
-                                <div className="cf-main">
-                                    <div className="cf-icon doc">
-                                        <i className="bx bxs-file-txt"></i>
+                                        <div className="cf-text">
+                                            <span className="cf-title">{file.originalName}</span>
+                                            <span className="cf-sub">In: /</span>
+                                        </div>
                                     </div>
-                                    <div className="cf-text">
-                                        <span className="cf-title">TreeWork-notes.md</span>
-                                        <span className="cf-sub">In: /Notes</span>
-                                    </div>
-                                </div>
-                                <span className="cf-size">480 KB</span>
-                                <span className="cf-date">03 May 2025</span>
-                                <span className="cf-type">Document</span>
-                                <div className="cf-actions">
-                                    <i className="bx bx-download"></i>
-                                    <i className="bx bx-dots-horizontal-rounded"></i>
-                                </div>
-                            </div>
 
-                            <div className="cloud-file-row">
-                                <div className="cf-main">
-                                    <div className="cf-icon zip">
-                                        <i className="bx bxs-file-archive"></i>
-                                    </div>
-                                    <div className="cf-text">
-                                        <span className="cf-title">assets-pack.zip</span>
-                                        <span className="cf-sub">In: /Resources</span>
+                                    <span className="cf-size">{file.size}</span>
+                                    <span className="cf-date">{fmtDate(file.modified)}</span>
+                                    <span className="cf-type">{file.type}</span>
+
+                                    <div className="cf-actions">
+                                        <a
+                                            href={`http://localhost:4001${file.url}`}
+                                            download={file.originalName}
+                                        >
+                                            <i className="bx bx-download"></i>
+                                        </a>
                                     </div>
                                 </div>
-                                <span className="cf-size">120 MB</span>
-                                <span className="cf-date">28 Apr 2025</span>
-                                <span className="cf-type">Archive</span>
-                                <div className="cf-actions">
-                                    <i className="bx bx-download"></i>
-                                    <i className="bx bx-dots-horizontal-rounded"></i>
+                            ))}
+
+                            {files.length === 0 && (
+                                <div className="cloud-file-row empty">
+                                    <div style={{ padding: "20px", textAlign: "center", width: "100%" }}>
+                                        No files yet.
+                                    </div>
                                 </div>
-                            </div>
+                            )}
                         </div>
                     </div>
                 </div>
             </div>
-
         </>
-    )
+    );
 }
 
-export default Cloud
+export default Cloud;
