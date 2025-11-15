@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 
 import "./App.css";
 import "./main.css";
@@ -7,7 +7,7 @@ import "./Css/login.css";
 
 import Navigation from "./Components/Navigation.jsx";
 import Sidebar from "./Components/Sidebar.jsx";
-import Login from "./Pages/Login.jsx";
+import Login from "./Pages/login.jsx";
 import Intro from "./intro.jsx";
 import OverlayIntro from "./opensite.jsx";
 import Notes from "./Pages/Notes.jsx";
@@ -17,6 +17,7 @@ import NoteForm from "./Pages/NoteForm.jsx";
 import Profile from "./Pages/Profile.jsx";
 import Settings from "./Pages/Settings.jsx";
 import Cloud from "./Pages/Cloud.jsx";
+
 import Workspace from "./Pages/Workspace.jsx";
 import ProjectForm from "./Pages/ProjectForm.jsx";
 import Work from "./Pages/Work.jsx";
@@ -29,13 +30,13 @@ import PointView from "./Pages/PointView.jsx";
 import Home from "./Pages/Home.jsx";
 
 function App() {
-    const [settingsOpen, setSettingsOpen] = useState(false);   // ← тут главное
     const [showIntro, setShowIntro] = useState(true);
-    const navigate = useNavigate();
     const [externalSearchTrigger, setExternalSearchTrigger] = useState(false);
+    const [token, setToken] = useState(localStorage.getItem("token"));
+
+    const [settingsOpen, setSettingsOpen] = useState(false);
+
     const location = useLocation();
-
-
     const isWorkspaceRoute = location.pathname.startsWith("/workspace");
     const isProjectFormRoute = location.pathname.startsWith("/projectForm");
     const isSpecialFullScreen = isWorkspaceRoute || isProjectFormRoute;
@@ -43,81 +44,107 @@ function App() {
     useEffect(() => {
         if (!showIntro) {
             document.body.classList.add("no-bg");
-            navigate("/login", { replace: true });
         }
-    }, [showIntro, navigate]);
+    }, [showIntro]);
 
     return (
         <>
-            {isWorkspaceRoute && (
-                <div className="workspace-container">
-                    <div className="workspace-content">
-                        <NavigationWork
-                            settingsOpen={settingsOpen}
-                            setSettingsOpen={setSettingsOpen}
-                        />
-                        <div className="workspace-app">
-                            <div className="sides">
-                                <RightSide />
-                            </div>
+            <OverlayIntro />
+            {showIntro && <Intro onFinish={() => setShowIntro(false)} />}
 
-                            <div className="content">
-                                <Routes>
-                                    <Route path="/workspace/projectView" element={<ProjectView />} />
-                                    <Route path="/workspace/projectDocumentation" element={<ProjectDocumentation />} />
-                                    <Route path="/workspace/pointView" element={< PointView/>} />
-                                </Routes>
-                            </div>
-
-                            <LeftSide settingsOpen={settingsOpen} />
-                        </div>
-                        <Routes>
-                            <Route path="/workspace" element={<Workspace />} />
-                        </Routes>
-                    </div>
-
-
-                </div>
-            )}
-
-            {isProjectFormRoute && (
-                <div className="form-container">
-                    <div className="projectform-page">
-                        <ProjectForm />
-                    </div>
-                </div>
-
-            )}
-
-            {!isWorkspaceRoute && !isProjectFormRoute && (
-                <div className="application">
+            <div className="application">
+                {!token ? (
+                    /* если нет токена — всегда показываем логин */
                     <Routes>
-                        <Route path="/login" element={<Login />} />
+                        <Route path="*" element={<Login setToken={setToken} />} />
                     </Routes>
+                ) : (
+                    <>
+                        {/* FULLSCREEN WORKSPACE */}
+                        {isWorkspaceRoute && (
+                            <div className="workspace-container">
+                                <div className="workspace-content">
+                                    <NavigationWork
+                                        settingsOpen={settingsOpen}
+                                        setSettingsOpen={setSettingsOpen}
+                                    />
+                                    <div className="workspace-app">
+                                        <div className="sides">
+                                            <RightSide />
+                                        </div>
 
-                    <div className="main">
-                        <Navigation openSearchExternally={externalSearchTrigger} />
-                        <div className="content">
-                            <Sidebar />
-                            <div className="app">
-                                <Routes>
-                                    <Route path="/home" element={<Home />} />
-                                    <Route path="/notes" element={<Notes setExternalSearchTrigger={setExternalSearchTrigger} />} />
-                                    <Route path="/calendar" element={<Calendar />} />
-                                    <Route path="/noteName" element={<NoteTemplate />} />
-                                    <Route path="/noteForm" element={<NoteForm />} />
-                                    <Route path="/profile" element={<Profile />} />
-                                    <Route path="/settings" element={<Settings />} />
-                                    <Route path="/cloud" element={<Cloud />} />
-                                    <Route path="/work" element={<Work />} />
-                                </Routes>
+                                        <div className="content">
+                                            <Routes>
+                                                <Route
+                                                    path="/workspace/projectView"
+                                                    element={<ProjectView />}
+                                                />
+                                                <Route
+                                                    path="/workspace/projectDocumentation"
+                                                    element={<ProjectDocumentation />}
+                                                />
+                                                <Route
+                                                    path="/workspace/pointView"
+                                                    element={<PointView />}
+                                                />
+                                            </Routes>
+                                        </div>
+
+                                        <LeftSide settingsOpen={settingsOpen} />
+                                    </div>
+
+                                    <Routes>
+                                        <Route path="/workspace" element={<Workspace />} />
+                                    </Routes>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            )}
+                        )}
 
+                        {/* FULLSCREEN PROJECT FORM */}
+                        {isProjectFormRoute && (
+                            <div className="form-container">
+                                <div className="projectform-page">
+                                    <ProjectForm />
+                                </div>
+                            </div>
+                        )}
 
+                        {/* Обычное приложение (Home, Notes, Calendar и т.д.) */}
+                        {!isSpecialFullScreen && (
+                            <div className="main">
+                                <Navigation openSearchExternally={externalSearchTrigger} />
+                                <div className="content">
+                                    <Sidebar />
+                                    <div className="app">
+                                        <Routes>
+                                            <Route path="/home" element={<Home />} />
+                                            <Route
+                                                path="/notes"
+                                                element={
+                                                    <Notes
+                                                        setExternalSearchTrigger={
+                                                            setExternalSearchTrigger
+                                                        }
+                                                    />
+                                                }
+                                            />
+                                            <Route path="/calendar" element={<Calendar />} />
+                                            <Route path="/noteName" element={<NoteTemplate />} />
+                                            <Route path="/noteForm" element={<NoteForm />} />
+                                            <Route path="/profile" element={<Profile />} />
+                                            <Route path="/settings" element={<Settings />} />
+                                            <Route path="/cloud" element={<Cloud />} />
+                                            <Route path="/work" element={<Work />} />
+                                            {/* если путь не найден — кидаем на /home */}
+                                            <Route path="*" element={<Navigate to="/home" replace />} />
+                                        </Routes>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </>
+                )}
+            </div>
         </>
     );
 }

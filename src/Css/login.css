@@ -20,7 +20,7 @@ body {
     border-radius: 10px;
     overflow: hidden;
     border: 1px solid var(--transaperecy);
-    display: none;
+    display: flex;
     align-items: center;
     column-gap: 20px;
     padding: 0 10px;
