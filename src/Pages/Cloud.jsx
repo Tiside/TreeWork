@@ -130,7 +130,7 @@ function Cloud() {
                             <div className="cloud-space-bar">
                                 <div className="cloud-space-fill" style={{ width: "36%" }}></div>
                             </div>
-                            <span className="cloud-space-info">18.4 GB / 50 GB</span>
+                            <span className="cloud-space-info">1 GB / 5 GB</span>
                         </div>
 
                         <label className="cloud-upload-btn">

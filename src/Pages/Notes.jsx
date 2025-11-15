@@ -47,7 +47,6 @@ function Notes({ setExternalSearchTrigger }) {
 
     useEffect(() => {
         const handleKeyDown = (e) => {
-            // чтобы не срабатывало, если печатаешь в инпуте/текстареа
             const tag = e.target.tagName.toLowerCase();
             const isEditable = e.target.isContentEditable;
             if (tag === "input" || tag === "textarea" || isEditable) return;

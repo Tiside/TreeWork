@@ -13,6 +13,8 @@ body {
     transition: all 0.5s ease;
 }
 
+
+
 a:-webkit-any-link {
     cursor: pointer;
     text-decoration: none;
@@ -599,6 +601,14 @@ body.expanded .app{
 .navigation .user .user-ui .bxs-user-circle.show {
     left: 60px;
     top: 18px;
+    opacity: 1;
+    color: var(--white);
+    z-index: 1;
+}
+
+.navigation .user .user-ui .bxs-door-open.show {
+    left: 50px;
+    top: 43px;
     opacity: 1;
     color: var(--white);
     z-index: 1;

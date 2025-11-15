@@ -1,0 +1,234 @@
+
+
+.work-flow-nav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.work-flow-nav .text h2{
+    color: var(--white);
+    font-size: 28px;
+    letter-spacing: 0.7px;
+    margin-bottom: 5px;
+}
+
+.work-flow-nav .text p{
+    color: var(--gray);
+    margin-top: 10px;
+}
+
+.work-flow-nav .project-activity{
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+}
+
+.work-flow-nav .project-activity .active{
+    border: 1px solid var(--transaperecy);
+    background-color: rgba(34, 197, 94, 0.15);
+    color: #bbf7d0;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+}
+
+.work-flow-nav .project-activity .active:hover{
+    scale: 1.06;
+    border-color: var(--silver);
+}
+
+
+
+.work-folders-content{
+    position: relative;
+    display: flex;
+    column-gap: 20px;
+}
+
+.work-folders-content .folder {
+    position: relative;
+    perspective: 800px;
+}
+
+.work-folders-content .folder .back {
+    width: 300px;
+    height: 250px;
+    background: #5d5ded;
+    border-radius: 25px;
+    position: relative;
+}
+
+.work-folders-content .folder .back::after {
+    content: "";
+    width: 180px;
+    height: 45px;
+    background: #5d5ded;
+    position: absolute;
+    top: -22px;
+    border-radius: 25px 50px 0 0;
+    clip-path: polygon(0% 0%, 50% 0%, 100% 100%, 0% 100%);
+}
+
+.work-folders-content .folder .front {
+    cursor: pointer;
+    width: calc(300px - 40px);
+    height: 210px;
+    padding: 20px;
+    position: absolute;
+    bottom: 0;
+    background: #4747f5;
+    border-radius: 25px;
+    background: linear-gradient(
+            0deg,
+            rgba(71, 71, 245, 1) 0%,
+            rgba(141, 141, 247, 1) 90%
+    );
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    transform-origin: top;
+    transition: transform 0.5s ease;
+    transform: rotateX(0deg);
+    transition: 0.3s;
+
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05), 0 8px 16px rgba(0, 0, 0, 0.05),
+    0 16px 32px rgba(0, 0, 0, 0.03);
+}
+
+.work-folders-content .folder .front .info {
+    display: flex;
+    justify-content: space-between;
+}
+.work-folders-content .folder .front .info h6 {
+    font-size: 28px;
+}
+.work-folders-content .folder .front .icons {
+    font-size: 25px;
+    display: flex;
+    gap: 5px;
+}
+.work-folders-content .folder .front .count {
+    font-size: 14px;
+}
+
+.work-folders-content .folder .file {
+    width: calc(260px - 30px);
+    padding: 10px 15px;
+    height: 190px;
+    position: absolute;
+    background: #fff;
+    bottom: 0;
+    left: 20px;
+    border-radius: 10px;
+
+    transition: transform 0.3s ease;
+    overflow: hidden;
+    box-shadow: 0 0 45px 10px rgba(0, 0, 0, 0.05);
+}
+.work-folders-content .folder .file h5 {
+    font-size: 16px;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+    border-bottom: 1px solid #f9f9f9;
+    cursor: pointer;
+}
+
+.work-folders-content .folder .files {
+    position: absolute;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 220px;
+    height: 130px;
+    pointer-events: none;
+}
+
+.work-folders-content .folder .files div {
+    position: absolute;
+    inset: 0;
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.9);
+    opacity: 0;
+    transform: translateY(12px) scale(0.96);
+    transition:
+            opacity 0.35s ease,
+            transform 0.35s ease;
+}
+
+.work-folders-content .folder:hover .files div {
+    opacity: 1;
+}
+
+.work-folders-content .folder.open .files div:nth-of-type(1) {
+    transform: translateY(0px) rotate(-5deg) scale(1);
+    transition-delay: 0.05s;
+}
+
+.work-folders-content .folder.open .files div:nth-of-type(2) {
+    transform: translateY(8px) rotate(1deg) scale(0.99);
+    transition-delay: 0.1s;
+}
+
+.work-folders-content .folder.open .files div:nth-of-type(3) {
+    transform: translateY(16px) rotate(6deg) scale(0.98);
+    transition-delay: 0.15s;
+}
+
+.work-folders-content .folder:hover .files div:nth-of-type(1) {
+    transform: translateY(0px) rotate(-5deg) scale(1);
+    transition-delay: 0.05s;
+}
+
+.work-folders-content .folder:hover .files div:nth-of-type(2) {
+    transform: translateY(8px) rotate(1deg) scale(0.99);
+    transition-delay: 0.1s;
+}
+.work-folders-content .folder:hover .files div:nth-of-type(3) {
+    transform: translateY(16px) rotate(6deg) scale(0.98);
+    transition-delay: 0.15s;
+}
+
+
+
+.work-folders-content .folder .front {
+    cursor: pointer;
+    width: calc(300px - 40px);
+    height: 210px;
+    padding: 20px;
+    position: absolute;
+    bottom: 0;
+    border-radius: 25px;
+    background: linear-gradient(0deg, rgba(71,71,245,1) 0%, rgba(141,141,247,1) 90%);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transform-origin: top;
+    transition: transform 0.35s ease, height 0.35s ease, bottom 0.35s ease;
+}
+
+.work-folders-content .folder:hover .front {
+    height: 175px;
+    bottom: -25px;
+    transform: rotateX(-18deg) scaleX(1.08);
+    background: linear-gradient(0deg, rgba(71,71,245,1) 0%, rgba(141,141,247,1) 60%);
+}
+
+
+.work-folders-content .folder.open .file {
+    transform: translateY(-20px);
+    transition: transform 0.3s ease;
+}
+
+.work-folders-content .folder.open .file.show {
+    transform: translateY(-180px);
+    transition: transform 0.3s ease;
+}

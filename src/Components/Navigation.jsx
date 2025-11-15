@@ -73,7 +73,9 @@ function Navigation({ openSearchExternally }) {
                 </div>
 
                 <div className="logo-name">
+                    <Link to={"/home"}>
                     <img src="/logo2.png" alt=""/>
+                    </Link>
                     <h3>Tree Work</h3>
                 </div>
 
@@ -181,8 +183,6 @@ function Navigation({ openSearchExternally }) {
                                     <h3>Notifications</h3>
                                     <p>You have <span className="blue-notifaction">0 Notifications</span> today</p>
                                 </div>
-
-                                {/* ВКЛЮЧЕНО */}
                                 {notificationsEnabled && (
                                     <i
                                         className='bx bxs-notification'
@@ -190,8 +190,6 @@ function Navigation({ openSearchExternally }) {
                                         onClick={toggleNotificationIcon}
                                     ></i>
                                 )}
-
-                                {/* ВЫКЛЮЧЕНО */}
                                 {!notificationsEnabled && (
                                     <i
                                         className='bx bxs-notification-off'
@@ -239,9 +237,11 @@ function Navigation({ openSearchExternally }) {
                     <div className="user">
                         <div className="user-pfp" onClick={() => setUserOpen(v => !v)}></div>
                         <div className="user-ui">
+
                             <Link to="/settings"><i className={`bx bxs-cog ${userOpen ? "show" : ""}`}></i></Link>
                             <Link to="/profile"><i
                                 className={`bx bxs-user-circle ${userOpen ? "show" : ""}`}></i></Link>
+                            <i className={`bx bxs-door-open ${userOpen ? "show" : ""}`}></i>
                         </div>
                         <div className="activity active"></div>
                     </div>

@@ -27,8 +27,8 @@ function Sidebar() {
             </div>
 
             <div className="main-icons">
-                <Link to={"/"}>
-                    <i className={`bx bxs-home ${currentPath === "/" ? "active" : ""}`}></i>
+                <Link to={"/home"}>
+                    <i className={`bx bxs-home ${currentPath === "/home" ? "active" : ""}`}></i>
                 </Link>
 
                 <Link to={"/notes"}>

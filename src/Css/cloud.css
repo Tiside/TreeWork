@@ -11,6 +11,7 @@
     backdrop-filter: blur(18px);
 }
 
+
 .cloud-header {
     display: flex;
     justify-content: space-between;
