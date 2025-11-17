@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 
 
-function Navigation({ openSearchExternally }) {
+function Navigation({ openSearchExternally, logout}) {
 
     const [isDark, setIsDark] = useState(false);
     const [userOpen, setUserOpen] = useState(false);
@@ -241,7 +241,7 @@ function Navigation({ openSearchExternally }) {
                             <Link to="/settings"><i className={`bx bxs-cog ${userOpen ? "show" : ""}`}></i></Link>
                             <Link to="/profile"><i
                                 className={`bx bxs-user-circle ${userOpen ? "show" : ""}`}></i></Link>
-                            <i className={`bx bxs-door-open ${userOpen ? "show" : ""}`}></i>
+                            <i className={`bx bxs-door-open ${userOpen ? "show" : ""}`} onClick={logout}></i>
                         </div>
                         <div className="activity active"></div>
                     </div>

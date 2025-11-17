@@ -47,6 +47,11 @@ function App() {
         }
     }, [showIntro]);
 
+    const logout = () => {
+        localStorage.removeItem("token");
+        setToken(null)
+    }
+
     return (
         <>
             <OverlayIntro />
@@ -112,7 +117,7 @@ function App() {
                         {/* Обычное приложение (Home, Notes, Calendar и т.д.) */}
                         {!isSpecialFullScreen && (
                             <div className="main">
-                                <Navigation openSearchExternally={externalSearchTrigger} />
+                                <Navigation openSearchExternally={externalSearchTrigger} logout={logout}/>
                                 <div className="content">
                                     <Sidebar />
                                     <div className="app">
