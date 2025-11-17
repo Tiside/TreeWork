@@ -537,7 +537,7 @@ body.expanded .app{
     border: 1px solid var(--white);
     padding: 25px;
     border-radius: 100%;
-    background-image: url("/public/IMG/piderman.jpg");
+    background-image: url("/public/user.jpg");
     background-position: center;
     background-size: cover;
     cursor: pointer;

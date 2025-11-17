@@ -54,13 +54,11 @@ function App() {
 
             <div className="application">
                 {!token ? (
-                    /* если нет токена — всегда показываем логин */
                     <Routes>
                         <Route path="*" element={<Login setToken={setToken} />} />
                     </Routes>
                 ) : (
                     <>
-                        {/* FULLSCREEN WORKSPACE */}
                         {isWorkspaceRoute && (
                             <div className="workspace-container">
                                 <div className="workspace-content">
@@ -100,7 +98,6 @@ function App() {
                             </div>
                         )}
 
-                        {/* FULLSCREEN PROJECT FORM */}
                         {isProjectFormRoute && (
                             <div className="form-container">
                                 <div className="projectform-page">
@@ -109,7 +106,6 @@ function App() {
                             </div>
                         )}
 
-                        {/* Обычное приложение (Home, Notes, Calendar и т.д.) */}
                         {!isSpecialFullScreen && (
                             <div className="main">
                                 <Navigation openSearchExternally={externalSearchTrigger} />
@@ -135,7 +131,6 @@ function App() {
                                             <Route path="/settings" element={<Settings />} />
                                             <Route path="/cloud" element={<Cloud />} />
                                             <Route path="/work" element={<Work />} />
-                                            {/* если путь не найден — кидаем на /home */}
                                             <Route path="*" element={<Navigate to="/home" replace />} />
                                         </Routes>
                                     </div>

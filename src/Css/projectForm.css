@@ -8,6 +8,10 @@
 /*    width: 80%;*/
 /*}*/
 
+.form-container {
+    width: 100%;
+}
+
 .project-form-wrap {
     width: 100%;
     padding: 20px;

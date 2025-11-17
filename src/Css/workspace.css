@@ -44,6 +44,7 @@ body.expanded .project-docs-card{
     height: 80vh;
 }
 .workspace-container{
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
