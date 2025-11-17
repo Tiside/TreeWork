@@ -88,7 +88,6 @@ function ProjectForm() {
         };
 
         console.log("Project created:", payload);
-        // сюда потом добавишь запрос на бек или сохранение в state
     };
 
     const canGoNextStep1 = projectName.trim().length > 0;

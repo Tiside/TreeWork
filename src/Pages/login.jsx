@@ -45,7 +45,13 @@ export default function Login({setToken}) {
     };
 
     return (
-        <div className="main-form">
+        <>
+            <div className="messages-for-form">
+                <h2 className="header-name error">Error</h2>
+                <p className="message-description">{message}</p>
+                <i className='bx bx-error-circle'></i>
+            </div>
+            <div className="main-form">
             <div className="additional-info">
                 <div className="header">
                     <img src="/logo2.png" alt=""/>
@@ -77,7 +83,6 @@ export default function Login({setToken}) {
                     </button>
                 </div>
 
-                {/* LOGIN */}
                 {activeTab === "login" && (
                     <form className="login-form form-pane show" id="loginForm" autoComplete="on" onSubmit={handleLogin}>
                         <div className="field">
@@ -101,7 +106,6 @@ export default function Login({setToken}) {
                             <a href="#">Forgot password?</a>
                         </div>
                         <button className="btn-primary" type="submit">Sign in</button>
-                        {message}
                         <div className="helper">
                             No account?{" "}
                             <a href="#" onClick={(e) => {
@@ -114,7 +118,6 @@ export default function Login({setToken}) {
                     </form>
                 )}
 
-                {/* REGISTER */}
                 {activeTab === "register" && (
                     <form className="registration-form form-pane show" id="registerForm" autoComplete="on" onSubmit={handleRegister}>
                         <div className="field">
@@ -134,7 +137,6 @@ export default function Login({setToken}) {
                             </button>
                         </div>
                         <button className="btn-primary" type="submit">Create account</button>
-                        {message}
                         <div className="helper">
                             Have an account?{" "}
                             <a href="#" onClick={(e) => {
@@ -148,5 +150,6 @@ export default function Login({setToken}) {
                 )}
             </div>
         </div>
+        </>
     );
 }

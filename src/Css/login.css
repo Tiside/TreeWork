@@ -11,6 +11,58 @@ body {
     var(--bg);
 }
 
+.messages-for-form{
+    position: absolute;
+    top: -200px;
+    left: 40%;
+    border: 1px solid var(--light-gray-color);
+    width: 20%;
+    height: 15vh;
+    border-radius: 15px;
+    z-index: 1000;
+    background-color: var(--light-gray-color);
+    padding: 2px 10px;
+    transition: all 0.4s ease;
+}
+
+.messages-for-form.show{
+    top: 5px;
+}
+
+.messages-for-form .header-name{
+    font-size: 24px;
+    margin-bottom: 0;
+}
+
+.messages-for-form .header-name.error{
+    color: red;
+}
+
+.messages-for-form .header-name.success{
+    color: greenyellow;
+}
+
+.messages-for-form .bx-error-circle,
+.messages-for-form .bx-check-circle{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    font-size: 24px;
+}
+
+.messages-for-form .bx-error-circle{
+    color: red;
+    box-shadow: var(--shadow);
+    border-radius: 50%;
+    background-color: var(--glass);
+    opacity: 1;
+}
+
+
+.messages-for-form .message-description{
+    color: var(--white);
+    margin-top: 10px;
+}
 
 .main-form {
     width: 55%;
