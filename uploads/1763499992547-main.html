@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Dotted connectors + drag</title>
+<style>
+  html, body { height:100%; margin:0; background:#111; overflow:hidden; }
+
+  .box{
+    position:absolute; width:80px; height:40px; background:#333; border-radius:8px;
+    cursor:grab; user-select:none; touch-action:none; /* важно для тача */
+    display:flex; align-items:center; justify-content:center; color:#eee; font:14px/1 sans-serif;
+  }
+  #a{ left:50px;  top:100px; }
+  #b{ left:300px; top:200px; }
+  #c{ left:400px; top:300px; }
+  #d{ left:200px; top:300px; }
+
+  svg{ position:absolute; inset:0; width:100%; height:100%; overflow:visible; pointer-events:none; }
+
+  /* стиль “точечной” линии */
+  .connector{
+    stroke: #2aff7a;
+    stroke-width: 6;
+    fill: none;
+    stroke-linecap: round;      /* точки круглые */
+    stroke-dasharray: 1 20;     /* длина “точки” и промежуток */
+    animation: moveDots 1.4s linear infinite;
+  }
+  @keyframes moveDots {
+    from { stroke-dashoffset: 0; }
+    to   { stroke-dashoffset: -21; }
+  }
+</style>
+</head>
+<body>
+
+<div id="a" class="box">A</div>
+<div id="b" class="box">B</div>
+<div id="c" class="box">C</div>
+<div id="d" class="box">D</div>
+
+<svg id="svg">
+  <!-- три соединения: A→B, B→C, A→D -->
+  <path id="ab" class="connector"/>
+  <path id="bc" class="connector"/>
+  <path id="ad" class="connector"/>
+</svg>
+
+<script>
+/* ===== helpers ===== */
+const svg = document.getElementById('svg');
+
+function rect(el){
+  // getBoundingClientRect относительно viewport
+  return el.getBoundingClientRect();
+}
+function midLeft(r){  return [r.left, r.top + r.height/2]; }
+function midRight(r){ return [r.left + r.width, r.top + r.height/2]; }
+
+function bezierPath([x1,y1], [x2,y2]){
+  const dx = Math.max(60, Math.abs(x2 - x1) * 0.35); // плавность
+  return `M ${x1} ${y1} C ${x1+dx} ${y1} ${x2-dx} ${y2} ${x2} ${y2}`;
+}
+
+function connect(fromEl, toEl, pathEl){
+  const rf = rect(fromEl);
+  const rt = rect(toEl);
+  const start = midRight(rf); // из правой стороны from
+  const end   = midLeft(rt);  // в левую сторону to
+  pathEl.setAttribute('d', bezierPath(start, end));
+}
+
+/* ===== обновление всех соединений ===== */
+const a = document.getElementById('a');
+const b = document.getElementById('b');
+const c = document.getElementById('c');
+const d = document.getElementById('d');
+
+const pAB = document.getElementById('ab');
+const pBC = document.getElementById('bc');
+const pAD = document.getElementById('ad');
+
+function updateAll(){
+  // SVG заполняет окно; координаты path берём в клиентских px
+  connect(a, b, pAB);
+  connect(b, c, pBC);
+  connect(a, d, pAD);
+}
+updateAll();
+addEventListener('resize', updateAll);
+
+/* ===== drag-n-drop с Pointer Events ===== */
+let dragEl = null;
+let shiftX = 0, shiftY = 0;
+
+function onDown(e){
+  const el = e.currentTarget;
+  dragEl = el;
+  const r = rect(el);
+  // смещение внутри блока, чтобы не “прыгало”
+  shiftX = e.clientX - r.left;
+  shiftY = e.clientY - r.top;
+  el.style.cursor = 'grabbing';
+  // захватываем указатель (для надёжного драгга на таче)
+  el.setPointerCapture?.(e.pointerId);
+}
+
+function onMove(e){
+  if(!dragEl) return;
+  const x = e.clientX - shiftX;
+  const y = e.clientY - shiftY;
+  dragEl.style.left = `${x}px`;
+  dragEl.style.top  = `${y}px`;
+  // после каждого шага — обновляем соединения
+  updateAll();
+}
+
+function onUp(e){
+  if(!dragEl) return;
+  dragEl.style.cursor = 'grab';
+  dragEl.releasePointerCapture?.(e.pointerId);
+  dragEl = null;
+}
+
+for (const el of [a,b,c,d]){
+  el.addEventListener('pointerdown', onDown);
+}
+addEventListener('pointermove', onMove);
+addEventListener('pointerup', onUp);
+addEventListener('pointercancel', onUp);
+</script>
+</body>
+</html>
