@@ -79,6 +79,66 @@ function authenticateToken(req, res, next) {
     });
 }
 
+app.get("/api/search", authenticateToken, (req, res) => {
+    const q = (req.query.q || "").trim();
+    if (!q) {
+        return res.json({
+            users: [],
+            notes: [],
+            events: [],
+        });
+    }
+
+    const like = `%${q}%`;
+
+    // поиск по пользователям
+    const usersSql = `
+        SELECT id, name_and_surname, nickname, email
+        FROM users
+        WHERE name_and_surname LIKE ? 
+           OR nickname LIKE ?
+           OR email LIKE ?
+        LIMIT 10
+    `;
+
+    const notesSql = `
+        SELECT id, title, text
+        FROM notes
+        WHERE title LIKE ?
+           OR text LIKE ?
+        LIMIT 10
+    `;
+
+    const eventsSql = `
+        SELECT id, text, date, hour_form, hour_to
+        FROM calendar
+        WHERE text LIKE ?
+        LIMIT 10
+    `;
+
+    db.query(usersSql, [like, like, like], (err, users) => {
+        if (err) {
+            console.error("search users error:", err);
+            return res.status(500).json({ error: "Server error" });
+        }
+
+        db.query(notesSql, [like, like], (err2, notes) => {
+            if (err2) {
+                console.error("search notes error:", err2);
+                return res.status(500).json({ error: "Server error" });
+            }
+
+            db.query(eventsSql, [like], (err3, events) => {
+                if (err3) {
+                    console.error("search events error:", err3);
+                    return res.status(500).json({ error: "Server error" });
+                }
+
+                res.json({ users, notes, events });
+            });
+        });
+    });
+});
 
 
 // ================== REGISTER ==================
@@ -202,6 +262,40 @@ app.get("/api/profile", authenticateToken, (req, res) => {
         }
 
         res.json(user);
+    });
+});
+
+
+app.get("/api/users/:id", authenticateToken, (req, res) => {
+    const userId = req.params.id;
+
+    const sql = `
+        SELECT
+            id,
+            name_and_surname,
+            nickname,
+            country,
+            city,
+            profesion    AS profession,
+            POSITION     AS position,
+            email,
+            profile_picture,
+            linkedin_url,
+            instagram_url,
+            facebook_url
+        FROM users
+        WHERE id = ?
+    `;
+
+    db.query(sql, [userId], (err, results) => {
+        if (err) {
+            console.error("GET /api/users/:id error:", err);
+            return res.status(500).json({ error: "Błąd serwera" });
+        }
+        if (results.length === 0) {
+            return res.status(404).json({ error: "User not found" });
+        }
+        res.json(results[0]);
     });
 });
 

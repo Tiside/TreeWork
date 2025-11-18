@@ -137,6 +137,7 @@ function App() {
                                             <Route path="/cloud" element={<Cloud />} />
                                             <Route path="/work" element={<Work />} />
                                             <Route path="*" element={<Navigate to="/home" replace />} />
+                                            <Route path="/user/:id" element={<Profile />} />
                                         </Routes>
                                     </div>
                                 </div>

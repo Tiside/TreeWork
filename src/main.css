@@ -335,6 +335,14 @@ body.expanded .app{
     transition: background 0.2s ease, transform 0.15s ease;
 }
 
+.search-result-item .search-result-link{
+    display: flex;
+    width: 95%;
+    align-items: center;
+    column-gap: 10px;
+    color: var(--black);
+}
+
 .search-result-item:hover {
     background: var(--cool-gray-color);
     transform: translateY(-1px);

@@ -15,6 +15,15 @@ function Navigation({ openSearchExternally, logout}) {
         localStorage.getItem("avatarUrl") || "/user.jpg"
     );
     const token = localStorage.getItem("token");
+    const [searchResults, setSearchResults] = useState({
+        users: [],
+        notes: [],
+        events: [],
+    });
+    const [searchLoading, setSearchLoading] = useState(false);
+    const [searchError, setSearchError] = useState("");
+    const [searchTimer, setSearchTimer] = useState(null);
+
 
 
     useEffect(() => {
@@ -56,6 +65,57 @@ function Navigation({ openSearchExternally, logout}) {
 
         if (value.length > 0) {
             setSearchOpen(true);
+        } else {
+            setSearchResults({ users: [], notes: [], events: [] });
+            setSearchError("");
+        }
+
+        // простой debounce
+        if (searchTimer) clearTimeout(searchTimer);
+
+        const t = setTimeout(() => {
+            runSearch(value);
+        }, 400); // 400ms задержка
+
+        setSearchTimer(t);
+    };
+
+    const runSearch = async (query) => {
+        if (!query || query.trim().length < 2) {
+            setSearchResults({ users: [], notes: [], events: [] });
+            setSearchError("");
+            return;
+        }
+        if (!token) return;
+
+        try {
+            setSearchLoading(true);
+            setSearchError("");
+
+            const res = await fetch(
+                `http://localhost:3000/api/search?q=${encodeURIComponent(query)}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            if (!res.ok) {
+                const data = await res.json().catch(() => ({}));
+                setSearchError(data.error || "Search error");
+                setSearchResults({ users: [], notes: [], events: [] });
+                return;
+            }
+
+            const data = await res.json();
+            setSearchResults(data);
+        } catch (err) {
+            console.error("search error:", err);
+            setSearchError("Search error");
+            setSearchResults({ users: [], notes: [], events: [] });
+        } finally {
+            setSearchLoading(false);
         }
     };
 
@@ -98,7 +158,11 @@ function Navigation({ openSearchExternally, logout}) {
         }
     }, [openSearchExternally]);
 
-
+    const handleResultClick = () => {
+        setSearchOpen(false);
+        setSearchValue("");
+        setSearchResults({ users: [], notes: [], events: [] });
+    };
 
     return (
         <>
@@ -151,45 +215,79 @@ function Navigation({ openSearchExternally, logout}) {
                             />
                         </div>
 
-                        {(searchOpen || searchValue.length > 0) && (
+                        {searchOpen && searchValue.length > 0 && (
                             <div className="search-results">
-
                                 <div className="search-results-header">
                                     <span>Results</span>
-                                    <span className="search-results-count">3 found</span>
+                                    <span className="search-results-count">
+                {searchLoading
+                    ? "Searching..."
+                    : `${searchResults.users.length +
+                    searchResults.notes.length +
+                    searchResults.events.length} found`}
+            </span>
                                 </div>
 
-                                <ul className="search-results-list">
-                                    <li className="search-result-item">
-                                        <i className="bx bxs-user"></i>
-                                        <div className="search-result-text">
-                                            <span className="search-result-title">Profile: Stanislav Bazhan</span>
-                                            <span className="search-result-subtitle">Open your profile details</span>
-                                        </div>
-                                        <span className="search-result-tag">Profile</span>
-                                    </li>
+                                {searchError && (
+                                    <div className="search-error">{searchError}</div>
+                                )}
 
-                                    <li className="search-result-item">
-                                        <i className="bx bxs-folder-open"></i>
-                                        <div className="search-result-text">
-                                            <span className="search-result-title">Project: Tree Work</span>
-                                            <span className="search-result-subtitle">Main dashboard section</span>
-                                        </div>
-                                        <span className="search-result-tag">Project</span>
-                                    </li>
+                                {!searchLoading && !searchError && (
+                                    <ul className="search-results-list">
+                                        {/* USERS */}
 
-                                    <li className="search-result-item">
-                                        <i className="bx bxs-calendar-event"></i>
-                                        <div className="search-result-text">
-                                            <span className="search-result-title">Today tasks</span>
-                                            <span className="search-result-subtitle">3 planned events</span>
-                                        </div>
-                                        <span className="search-result-tag">Calendar</span>
-                                    </li>
-                                </ul>
+                                        {/* NOTES */}
+                                        {searchResults.users.map((u) => (
+                                            <li className="search-result-item" key={`user-${u.id}`}>
+                                                <Link
+                                                    to={`/user/${u.id}`}
+                                                    className="search-result-link"
+                                                    onClick={handleResultClick}  // чтоб закрыть дропдаун
+                                                >
+                                                    <i className="bx bxs-user"></i>
+                                                    <div className="search-result-text">
+                <span className="search-result-title">
+                    {u.name_and_surname}
+                    {u.nickname ? ` (${u.nickname})` : ""}
+                </span>
+                                                        <span className="search-result-subtitle">
+                    {u.email}
+                </span>
+                                                    </div>
+                                                    <span className="search-result-tag">User</span>
+                                                </Link>
+                                            </li>
+                                        ))}
 
+                                        {/* EVENTS */}
+                                        {searchResults.events.map((e) => (
+                                            <li className="search-result-item" key={`event-${e.id}`}>
+                                                <i className="bx bxs-calendar-event"></i>
+                                                <div className="search-result-text">
+                            <span className="search-result-title">
+                                {e.text}
+                            </span>
+                                                    <span className="search-result-subtitle">
+                                {e.date} {e.hour_form}–{e.hour_to}
+                            </span>
+                                                </div>
+                                                <span className="search-result-tag">Calendar</span>
+                                            </li>
+                                        ))}
+
+                                        {searchResults.users.length === 0 &&
+                                            searchResults.notes.length === 0 &&
+                                            searchResults.events.length === 0 &&
+                                            !searchLoading && (
+                                                <li className="search-result-item empty">
+                                                    <span>No results</span>
+                                                </li>
+                                            )}
+                                    </ul>
+                                )}
+
+                                {/* потом можно сделать реальную страницу «View all» */}
                                 <button className="search-view-all">View all</button>
-
                             </div>
                         )}
                     </div>

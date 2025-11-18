@@ -1,6 +1,6 @@
 import "/src/Css/profile.css";
 import { useEffect, useRef, useState } from "react";
-import {data} from "react-router-dom";
+import {data, useParams} from "react-router-dom";
 
 function Profile() {
     // ============ PFP LOGIC ============
@@ -9,6 +9,10 @@ function Profile() {
     const [pfpPreview, setPfpPreview] = useState("/user.jpg");
     const fileInputRef2 = useRef(null);
     const [selectedPfpFile, setSelectedPfpFile] = useState(null);
+    const { id: routeId } = useParams();
+    const myId = localStorage.getItem("userId");
+
+    const isOwnProfile = !routeId || routeId === String(myId);
 
 
     const handleChoosePfp = () => fileInputRef2.current?.click();
@@ -89,11 +93,18 @@ function Profile() {
     // ======== LOAD PROFILE ========
     useEffect(() => {
         const loadProfile = async () => {
+            if (!token) {
+                setLoading(false);
+                return;
+            }
+
             try {
-                const res = await fetch("http://localhost:3000/api/profile", {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
+                const url = routeId
+                    ? `http://localhost:3000/api/users/${routeId}` // чужой
+                    : "http://localhost:3000/api/profile";         // свой
+
+                const res = await fetch(url, {
+                    headers: { Authorization: `Bearer ${token}` },
                 });
 
                 if (!res.ok) throw new Error("Failed to load profile");
@@ -104,7 +115,9 @@ function Profile() {
                     const fullUrl = `http://localhost:3000${data.profile_picture}`;
                     setPfpBg(fullUrl);
                     setPfpPreview(fullUrl);
-                    localStorage.setItem("avatarUrl", fullUrl);
+                    if (isOwnProfile) {
+                        localStorage.setItem("avatarUrl", fullUrl);
+                    }
                 }
 
                 const mapped = {
@@ -117,7 +130,6 @@ function Profile() {
                     linkedin_url: data.linkedin_url,
                     instagram_url: data.instagram_url,
                     facebook_url: data.facebook_url,
-
                 };
 
                 setProfile(mapped);
@@ -129,12 +141,8 @@ function Profile() {
             }
         };
 
-        if (token) {
-            loadProfile();
-        } else {
-            setLoading(false);
-        }
-    }, [token]);
+        loadProfile();
+    }, [token, routeId, isOwnProfile]);
 
     // ======== FIELD CHANGE ========
     const handleFieldChange = (field, value) => {
@@ -232,14 +240,17 @@ function Profile() {
                         <div
                             className="user-pfp"
                             onClick={() => {
+                                if (!isOwnProfile) return; // чужой профиль — не открываем модалку
                                 setPfpPreview(pfpBg);
                                 setShowPfp(true);
                             }}
                             style={{ backgroundImage: `url(${pfpBg})` }}
                         >
-                            <div className="edit">
-                                <i className="bx bx-edit-alt"></i>
-                            </div>
+                            {isOwnProfile && (
+                                <div className="edit">
+                                    <i className="bx bx-edit-alt"></i>
+                                </div>
+                            )}
                         </div>
                     </div>
 
@@ -283,27 +294,29 @@ function Profile() {
                                 )}
                             </div>
                             <div className="edit">
-                                {editSection === "identity" ? (
-                                    <>
-                                        <button
-                                            className="save-btn"
-                                            onClick={handleSaveSection}
-                                            disabled={saving}
-                                        >
-                                            Save
-                                        </button>
-                                        <button
-                                            className="cancel-btn"
-                                            onClick={handleCancelSection}
-                                        >
-                                            Cancel
-                                        </button>
-                                    </>
-                                ) : (
-                                    <i
-                                        className="bx bxs-edit-alt"
-                                        onClick={() => setEditSection("identity")}
-                                    ></i>
+                                {isOwnProfile && (
+                                    editSection === "identity" ? (
+                                        <>
+                                            <button
+                                                className="save-btn"
+                                                onClick={handleSaveSection}
+                                                disabled={saving}
+                                            >
+                                                Save
+                                            </button>
+                                            <button
+                                                className="cancel-btn"
+                                                onClick={handleCancelSection}
+                                            >
+                                                Cancel
+                                            </button>
+                                        </>
+                                    ) : (
+                                        <i
+                                            className="bx bxs-edit-alt"
+                                            onClick={() => setEditSection("identity")}
+                                        ></i>
+                                    )
                                 )}
                             </div>
                         </div>
@@ -345,27 +358,29 @@ function Profile() {
                                 )}
                             </div>
                             <div className="edit">
-                                {editSection === "job" ? (
-                                    <>
-                                        <button
-                                            className="save-btn"
-                                            onClick={handleSaveSection}
-                                            disabled={saving}
-                                        >
-                                            Save
-                                        </button>
-                                        <button
-                                            className="cancel-btn"
-                                            onClick={handleCancelSection}
-                                        >
-                                            Cancel
-                                        </button>
-                                    </>
-                                ) : (
-                                    <i
-                                        className="bx bxs-edit-alt"
-                                        onClick={() => setEditSection("job")}
-                                    ></i>
+                                {isOwnProfile && (
+                                    editSection === "job" ? (
+                                        <>
+                                            <button
+                                                className="save-btn"
+                                                onClick={handleSaveSection}
+                                                disabled={saving}
+                                            >
+                                                Save
+                                            </button>
+                                            <button
+                                                className="cancel-btn"
+                                                onClick={handleCancelSection}
+                                            >
+                                                Cancel
+                                            </button>
+                                        </>
+                                    ) : (
+                                        <i
+                                            className="bx bxs-edit-alt"
+                                            onClick={() => setEditSection("identity")}
+                                        ></i>
+                                    )
                                 )}
                             </div>
                         </div>
@@ -407,27 +422,29 @@ function Profile() {
                                 )}
                             </div>
                             <div className="edit">
-                                {editSection === "location" ? (
-                                    <>
-                                        <button
-                                            className="save-btn"
-                                            onClick={handleSaveSection}
-                                            disabled={saving}
-                                        >
-                                            Save
-                                        </button>
-                                        <button
-                                            className="cancel-btn"
-                                            onClick={handleCancelSection}
-                                        >
-                                            Cancel
-                                        </button>
-                                    </>
-                                ) : (
-                                    <i
-                                        className="bx bxs-edit-alt"
-                                        onClick={() => setEditSection("location")}
-                                    ></i>
+                                {isOwnProfile && (
+                                    editSection === "location" ? (
+                                        <>
+                                            <button
+                                                className="save-btn"
+                                                onClick={handleSaveSection}
+                                                disabled={saving}
+                                            >
+                                                Save
+                                            </button>
+                                            <button
+                                                className="cancel-btn"
+                                                onClick={handleCancelSection}
+                                            >
+                                                Cancel
+                                            </button>
+                                        </>
+                                    ) : (
+                                        <i
+                                            className="bx bxs-edit-alt"
+                                            onClick={() => setEditSection("identity")}
+                                        ></i>
+                                    )
                                 )}
                             </div>
                         </div>
