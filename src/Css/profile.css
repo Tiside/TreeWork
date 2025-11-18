@@ -196,6 +196,15 @@
     column-gap: 10px;
 }
 
+.profile-container .line-info input{
+    background-color: var(--transaperecy);
+    border-radius: 10px;
+    border: 1px solid var(--light-gray-color);
+    padding: 5px;
+    color: var(--white);
+    margin-bottom: 5px;
+}
+
 .profile-container .line-info .edit .cancel-btn{
     border: 1px solid var(--silver);
     border-radius: 20px;
