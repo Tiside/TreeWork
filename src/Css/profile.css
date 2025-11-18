@@ -168,7 +168,6 @@
     border: 1px solid var(--white);
     padding: 100px;
     border-radius: 100%;
-    background-image: url("/public/IMG/piderman.jpg");
     background-position: center;
     background-size: cover;
     cursor: pointer;
@@ -189,6 +188,44 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.profile-container .line-info .edit{
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+}
+
+.profile-container .line-info .edit .cancel-btn{
+    border: 1px solid var(--silver);
+    border-radius: 20px;
+    color: var(--white);
+    background-color: var(--transaperecy);
+    padding: 5px 20px;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.profile-container .line-info .edit .cancel-btn:hover {
+    background-color: var(--glass);
+}
+
+.profile-container .line-info .edit .save-btn{
+    border: 1px solid var(--silver);
+    border-radius: 20px;
+    color: var(--white);
+    background-color: var(--more-blue);
+    padding: 5px 20px;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.4s ease;
+}
+
+.profile-container .line-info .edit .save-btn:hover{
+    background-color: var(--blue);
 }
 
 .profile-container .user .user-side-pfp .user-pfp .edit i {

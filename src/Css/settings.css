@@ -201,13 +201,17 @@ body.expanded .settings {
     border: 1px solid var(--white);
     padding: 30px;
     border-radius: 100%;
-    background-image: url("/public/IMG/piderman.jpg");
     background-position: center;
     background-size: cover;
     cursor: pointer;
     width: 0.2%;
     object-fit: cover;
     margin-bottom: 15px;
+}
+
+.settings .personal-info-content .apply-btn,
+.settings .password-content .apply-btn {
+    width: 15%;
 }
 
 .settings .personal-info-content .info,
@@ -261,6 +265,16 @@ body.expanded .settings {
     row-gap: 10px;
 }
 
+.settings .social-content .apply-btn{
+    width: 5%;
+    font-size: 12px;
+    padding: 8px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .settings .social-content .socials .social,
 .settings .link-content .links .link {
     display: flex;
@@ -272,6 +286,10 @@ body.expanded .settings {
 .settings .link-content .links .link img {
     font-size: 20px;
     color: var(--white);
+    height: 30px;
+    width: 30px;
+    object-fit: cover;
+    border-radius: 50%;
 }
 
 .settings .social-content .socials .social input,

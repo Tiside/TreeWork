@@ -11,6 +11,44 @@ function Navigation({ openSearchExternally, logout}) {
     const [notificationsEnabled, setNotificationsEnabled] = useState(true);;
     const [searchOpen, setSearchOpen] = useState(false);
     const [searchValue, setSearchValue] = useState("");
+    const [avatar, setAvatar] = useState(
+        localStorage.getItem("avatarUrl") || "/user.jpg"
+    );
+    const token = localStorage.getItem("token");
+
+
+    useEffect(() => {
+        if (!token) return;
+
+        const loadProfile = async () => {
+            try {
+                const res = await fetch("http://localhost:3000/api/profile", {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+
+                if (!res.ok) {
+                    console.error("Navigation profile load error:", res.status);
+                    return;
+                }
+
+                const data = await res.json();
+
+                if (data.profile_picture) {
+                    // с бэка приходит "/avatars/1.png" → делаем полный URL
+                    const fullUrl = `http://localhost:3000${data.profile_picture}`;
+                    setAvatar(fullUrl);
+                    localStorage.setItem("avatarUrl", fullUrl); // чтобы помнить между перезапусками
+                } else {
+                    setAvatar("/user.jpg");
+                    localStorage.removeItem("avatarUrl");
+                }
+            } catch (err) {
+                console.error("Navigation avatar error:", err);
+            }
+        };
+
+        loadProfile();
+    }, [token]);
 
     const handleSearchChange = (e) => {
         const value = e.target.value;
@@ -235,7 +273,13 @@ function Navigation({ openSearchExternally, logout}) {
 
 
                     <div className="user">
-                        <div className="user-pfp" onClick={() => setUserOpen(v => !v)}></div>
+                        <div
+                            className="user-pfp"
+                            style={avatar ? { backgroundImage: `url(${avatar})` } : {}}
+                            onClick={() => setUserOpen(v => !v)}
+                        ></div>
+
+
                         <div className="user-ui">
 
                             <Link to="/settings"><i className={`bx bxs-cog ${userOpen ? "show" : ""}`}></i></Link>

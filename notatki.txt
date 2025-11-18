@@ -10,3 +10,12 @@ Animacja wejscia pierwszy raz na strone zakomentowane w App.jsx na poczatku retu
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 WYLACZYC <OverlayIntro/> W APP.JSX PRZED WLACZENIEM ANIMACJI LADOWANIA
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
+npm install express cors multer
+node cloud.js
+
+cd backend
+npm install
+node server.js

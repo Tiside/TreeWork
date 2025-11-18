@@ -2,7 +2,49 @@
 import "/src/Css/home.css"
 import {Link} from "react-router-dom";
 import MiniCalendar from "../Components/MiniCalendar.jsx";
+import { useEffect, useState } from "react";
+
 function Home(){
+    const [latestFiles, setLatestFiles] = useState([]);
+    const [profile, setProfile] = useState({});
+    const token = localStorage.getItem("token");
+
+    useEffect(() => {
+        const load = async () => {
+            try {
+                const res = await fetch("http://localhost:4001/files");
+                const data = await res.json();
+
+                // берем только 2 последних:
+                setLatestFiles(data.slice(0, 2));
+            } catch (err) {
+                console.error("Failed to load latest files:", err);
+            }
+        };
+
+        load();
+    }, []);
+
+    useEffect(() => {
+        if (!token) return;
+
+        const loadProfile = async () => {
+            try {
+                const res = await fetch("http://localhost:3000/api/profile", {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+
+                if (!res.ok) return;
+
+                const data = await res.json();
+                setProfile(data);
+            } catch (err) {
+                console.error("Home profile load error:", err);
+            }
+        };
+
+        loadProfile();
+    }, [token]);
     return (
         <>
             <div className="home-nav">
@@ -20,7 +62,11 @@ function Home(){
                     <div className="left-side-content">
                         <div className="user">
                             <div className="user-info-content">
-                                <div className="user-pfp"></div>
+                                <div className="user-pfp"
+                                     style={{
+                                         backgroundImage: `url(${localStorage.getItem("avatarUrl") || "/user.jpg"})`
+                                     }}
+                                ></div>
                                 <div className="user-info">
                                     <h2>Stanislav Bazhan</h2>
                                     <h3>Tiside</h3>
@@ -29,9 +75,34 @@ function Home(){
                             </div>
 
                             <div className="user-social">
-                                <i className='bx bxl-linkedin'></i>
-                                <i className='bx bxl-instagram'></i>
-                                <i className='bx bxl-facebook'></i>
+                                {profile.linkedin_url && (
+                                    <a
+                                        href={profile.linkedin_url}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                    >
+                                        <i className="bx bxl-linkedin"></i>
+                                    </a>
+                                )}
+
+                                {profile.instagram_url && (
+                                    <a
+                                        href={profile.instagram_url}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                    >
+                                        <i className="bx bxl-instagram"></i>
+                                    </a>
+                                )}
+                                {profile.facebook_url && (
+                                    <a
+                                        href={profile.facebook_url}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                    >
+                                        <i className="bx bxl-facebook"></i>
+                                    </a>
+                                )}
                             </div>
                             <hr/>
                             <div className="user-stats">
@@ -48,39 +119,28 @@ function Home(){
 
                         <div className="files">
                             <h3>Last Modified Files</h3>
-                            <div className="pv-file-card">
-                                <div className="pv-file-icon">
-                                    <i className="bx bxs-file-blank"></i>
-                                </div>
-                                <div className="pv-file-text">
-                                    <span className="pv-file-name">workspace-spec-v1.pdf</span>
-                                    <span className="pv-file-meta">2.3 MB · Last updated today</span>
-                                </div>
-                                <div className="pv-file-actions">
-                                    <Link to="/cloud">
-                                    <button className="pv-file-btn secondary">
-                                        <i className='bx bx-dots-horizontal-rounded' ></i>
-                                    </button>
-                                    </Link>
-                                </div>
-                            </div>
-                            <div className="pv-file-card">
-                                <div className="pv-file-icon">
-                                    <i className="bx bxs-file-blank"></i>
-                                </div>
-                                <div className="pv-file-text">
-                                    <span className="pv-file-name">workspace-spec-v1.pdf</span>
-                                    <span className="pv-file-meta">2.3 MB · Last updated today</span>
-                                </div>
-                                <div className="pv-file-actions">
-                                    <Link to="/cloud">
-                                        <button className="pv-file-btn secondary">
-                                            <i className='bx bx-dots-horizontal-rounded' ></i>
-                                        </button>
-                                    </Link>
-                                </div>
-                            </div>
+                            {latestFiles.map((file) => (
+                                <div className="pv-file-card" key={file.id}>
+                                    <div className="pv-file-icon">
+                                        <i className="bx bxs-file-blank"></i>
+                                    </div>
 
+                                    <div className="pv-file-text">
+                                        <span className="pv-file-name">{file.originalName}</span>
+                                        <span className="pv-file-meta">
+                {file.size} · {new Date(file.modified).toLocaleDateString("en-GB")}
+            </span>
+                                    </div>
+
+                                    <div className="pv-file-actions">
+                                        <Link to="/cloud">
+                                            <button className="pv-file-btn secondary">
+                                                <i className="bx bx-dots-horizontal-rounded"></i>
+                                            </button>
+                                        </Link>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
                     </div>
 

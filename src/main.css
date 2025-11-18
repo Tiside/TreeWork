@@ -537,13 +537,14 @@ body.expanded .app{
     border: 1px solid var(--white);
     padding: 25px;
     border-radius: 100%;
-    background-image: url("/public/user.jpg");
     background-position: center;
     background-size: cover;
     cursor: pointer;
     position: relative;
     transition: all 0.3s ease;
 }
+
+
 
 .activity {
     position: absolute;
@@ -683,10 +684,10 @@ body.expanded .app{
     align-items: center;
     color: var(--white);
     cursor: pointer;
+    height: 30px;
+    width: 30px;
+    padding: 4px;
 
-    height: 20px;
-    width: 20px;
-    padding: 10px
 }
 
 .content .side-bar .addons img:hover {
@@ -700,6 +701,11 @@ body.expanded .app{
     align-items: center;
     flex-direction: column;
     row-gap: 2px;
+    z-index: -10;
+}
+
+.addons.open .images-link {
+    z-index: 10;
 }
 
 

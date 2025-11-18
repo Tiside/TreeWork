@@ -93,7 +93,6 @@ body.expanded .home-content{
     border: 1px solid var(--white);
     padding: 70px;
     border-radius: 100%;
-    background-image: url("/public/IMG/piderman.jpg");
     background-position: center;
     background-size: cover;
     cursor: pointer;

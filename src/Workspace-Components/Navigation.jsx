@@ -59,7 +59,11 @@ function NavigationWork({ settingsOpen, setSettingsOpen }) {
 
             <Link to="/profile">
                 <div className="user">
-                    <div className="user-pfp"></div>
+                    <div className="user-pfp"
+                         style={{
+                             backgroundImage: `url(${localStorage.getItem("avatarUrl") || "/user.jpg"})`
+                         }}
+                    ></div>
                 </div>
             </Link>
         </div>

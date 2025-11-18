@@ -247,6 +247,7 @@ function Notes({ setExternalSearchTrigger }) {
                         <h3 className="notes-name">Tree Work Project</h3>
                         <p className="description">Zrobienie notatek na stronie</p>
                     </div>
+
                 </div>
             </div>
         </>

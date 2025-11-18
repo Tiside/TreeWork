@@ -5,6 +5,13 @@ function Cloud() {
     const [files, setFiles] = useState([]);
     const dropRef = useRef(null);
 
+    const MAX_STORAGE = 5 * 1024 * 1024 * 1024; // 5 GB
+
+    const calcUsedBytes = () => {
+        return files.reduce((acc, f) => acc + (f.sizeBytes || 0), 0);
+    };
+
+
     // =========================================================================
     // LOAD FILES
     // =========================================================================
@@ -112,6 +119,13 @@ function Cloud() {
     // =========================================================================
     // JSX
     // =========================================================================
+
+    const usedBytes = calcUsedBytes();
+    const percent = Math.min(100, (usedBytes / MAX_STORAGE) * 100);
+
+// Форматируем красивый вывод (1.32 GB / 5 GB)
+    const fmtGB = (b) => (b / (1024 * 1024 * 1024)).toFixed(2);
+
     return (
         <>
             <div className="cloud-wrap">
@@ -128,9 +142,12 @@ function Cloud() {
                         <div className="cloud-space">
                             <span>Storage</span>
                             <div className="cloud-space-bar">
-                                <div className="cloud-space-fill" style={{ width: "36%" }}></div>
+                                <div  className="cloud-space-fill"
+                                      style={{ width: `${percent}%` }}></div>
                             </div>
-                            <span className="cloud-space-info">1 GB / 5 GB</span>
+                            <span className="cloud-space-info">
+    {fmtGB(usedBytes)} GB / {fmtGB(MAX_STORAGE)} GB
+</span>
                         </div>
 
                         <label className="cloud-upload-btn">
