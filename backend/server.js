@@ -66,4 +66,46 @@ app.post("/login", (req, res) => {
     });
 });
 
+const auth = (req, res, next) => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) return res.status(401).json({ error: "Brak tokenu" });
+
+    const token = authHeader.split(" ")[1]; // Bearer TOKEN
+    if (!token) return res.status(401).json({ error: "Brak tokenu" });
+
+    try {
+        const user = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = user;
+        next();
+    } catch {
+        res.status(401).json({ error: "Nieprawidłowy token" });
+    }
+};
+
+app.get("/calendar", auth, (req, res) => {
+    const sql = "SELECT * FROM Calendar WHERE user_id = ?";
+    db.query(sql, [req.user.id], (err, results) => {
+        if (err) return res.status(500).json({ error: err });
+        res.json(results);
+    });
+});
+
+app.post("/calendar", auth, (req, res) => {
+    const { text, date, hour_form, hour_to } = req.body;
+    const sql = "INSERT INTO Calendar (text, date, hour_from, hour_to, user_id) VALUES (?, ?, ?, ?, ?)";
+    db.query(sql, [text, date, hour_form, hour_to, req.user.id], (err, result) => {
+        if (err) return res.status(500).json({ error: err });
+        res.json({ success: true, id: result.insertId });
+    });
+});
+
+app.delete("/calendar/:id", auth, (req, res) => {
+    const { id } = req.params;
+    const sql = "DELETE FROM Calendar WHERE user_id = ? AND id = ?";
+    db.query(sql, [req.user.id, id], (err) => {
+        if (err) return res.status(500).json({ error: err });
+        res.json({ success: true });
+    });
+});
+
 app.listen(3000, () => console.log("Backend działa na http://localhost:3000"));

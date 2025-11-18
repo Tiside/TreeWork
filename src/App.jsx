@@ -129,7 +129,7 @@ function App() {
                                                     />
                                                 }
                                             />
-                                            <Route path="/calendar" element={<Calendar />} />
+                                            <Route path="/calendar" element={<Calendar token={token}/>} />
                                             <Route path="/noteName" element={<NoteTemplate />} />
                                             <Route path="/noteForm" element={<NoteForm />} />
                                             <Route path="/profile" element={<Profile />} />
