@@ -20,9 +20,7 @@ app.use(express.json());
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-
-
-// ================== НАСТРОЙКА АВАТАРОК ==================
+// ================== НАСТРОЙКА АВАТАРОК / ЛИНКОВ ==================
 const AVATAR_DIR = path.join(__dirname, "avatars");
 if (!fs.existsSync(AVATAR_DIR)) {
     fs.mkdirSync(AVATAR_DIR, { recursive: true });
@@ -46,7 +44,6 @@ const uploadLinkIcon = multer({
     limits: { fileSize: 5 * 1024 * 1024 },
 });
 
-// статическая раздача
 app.use("/links", express.static(LINKS_DIR));
 
 const avatarStorage = multer.diskStorage({
@@ -59,10 +56,9 @@ const avatarStorage = multer.diskStorage({
 
 const uploadAvatar = multer({
     storage: avatarStorage,
-    limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB
+    limits: { fileSize: 5 * 1024 * 1024 },
 });
 
-// раздаём файлы по /avatars/...
 app.use("/avatars", express.static(AVATAR_DIR));
 
 // ================== MIDDLEWARE JWT ==================
@@ -79,8 +75,11 @@ function authenticateToken(req, res, next) {
     });
 }
 
+// ================== SEARCH ==================
 app.get("/api/search", authenticateToken, (req, res) => {
     const q = (req.query.q || "").trim();
+    const userId = req.user.id;
+
     if (!q) {
         return res.json({
             users: [],
@@ -91,29 +90,29 @@ app.get("/api/search", authenticateToken, (req, res) => {
 
     const like = `%${q}%`;
 
-    // поиск по пользователям
     const usersSql = `
         SELECT id, name_and_surname, nickname, email
         FROM users
-        WHERE name_and_surname LIKE ? 
+        WHERE name_and_surname LIKE ?
            OR nickname LIKE ?
            OR email LIKE ?
-        LIMIT 10
+            LIMIT 10
     `;
 
     const notesSql = `
         SELECT id, title, text
         FROM notes
-        WHERE title LIKE ?
-           OR text LIKE ?
-        LIMIT 10
+        WHERE user_id = ?
+          AND (title LIKE ? OR text LIKE ?)
+            LIMIT 10
     `;
 
     const eventsSql = `
         SELECT id, text, date, hour_form, hour_to
         FROM calendar
-        WHERE text LIKE ?
-        LIMIT 10
+        WHERE user_id = ?
+          AND text LIKE ?
+            LIMIT 10
     `;
 
     db.query(usersSql, [like, like, like], (err, users) => {
@@ -122,13 +121,13 @@ app.get("/api/search", authenticateToken, (req, res) => {
             return res.status(500).json({ error: "Server error" });
         }
 
-        db.query(notesSql, [like, like], (err2, notes) => {
+        db.query(notesSql, [userId, like, like], (err2, notes) => {
             if (err2) {
                 console.error("search notes error:", err2);
                 return res.status(500).json({ error: "Server error" });
             }
 
-            db.query(eventsSql, [like], (err3, events) => {
+            db.query(eventsSql, [userId, like], (err3, events) => {
                 if (err3) {
                     console.error("search events error:", err3);
                     return res.status(500).json({ error: "Server error" });
@@ -139,7 +138,6 @@ app.get("/api/search", authenticateToken, (req, res) => {
         });
     });
 });
-
 
 // ================== REGISTER ==================
 app.post("/register", (req, res) => {
@@ -200,8 +198,7 @@ app.post("/login", (req, res) => {
     });
 });
 
-
-
+// ================== LINKS ==================
 app.get("/api/links", authenticateToken, (req, res) => {
     const userId = req.user.id;
 
@@ -221,6 +218,54 @@ app.get("/api/links", authenticateToken, (req, res) => {
     });
 });
 
+app.post(
+    "/api/links",
+    authenticateToken,
+    uploadLinkIcon.single("image"),
+    (req, res) => {
+        const userId = req.user.id;
+        const { id, link } = req.body;
+        const imageUrl = req.file ? `/links/${req.file.filename}` : null;
+
+        if (!link) {
+            return res.status(400).json({ error: "Brakuje linku" });
+        }
+
+        if (id) {
+            // UPDATE
+            const sql = `
+                UPDATE links
+                SET link = ?, image_url = COALESCE(?, image_url)
+                WHERE id = ? AND user_id = ?
+            `;
+            db.query(sql, [link, imageUrl, id, userId], (err) => {
+                if (err) {
+                    console.error("UPDATE link error:", err);
+                    return res.status(500).json({ error: "Błąd serwera" });
+                }
+                res.json({ success: true });
+            });
+        } else {
+            // INSERT
+            const sql = `
+                INSERT INTO links (link, user_id, image_url)
+                VALUES (?, ?, ?)
+            `;
+            db.query(sql, [link, userId, imageUrl], (err, result) => {
+                if (err) {
+                    console.error("INSERT link error:", err);
+                    return res.status(500).json({ error: "Błąd serwera" });
+                }
+                res.status(201).json({
+                    success: true,
+                    id: result.insertId,
+                    link,
+                    image_url: imageUrl,
+                });
+            });
+        }
+    }
+);
 
 // ================== PROFILE: GET ==================
 app.get("/api/profile", authenticateToken, (req, res) => {
@@ -235,12 +280,12 @@ app.get("/api/profile", authenticateToken, (req, res) => {
             city,
             profesion AS profession,
             POSITION AS position,
-        email,
-        phone_number,
-        linkedin_url,
-        instagram_url,
-        facebook_url,
-        profile_picture
+            email,
+            phone_number,
+            linkedin_url,
+            instagram_url,
+            facebook_url,
+            profile_picture
         FROM users
         WHERE id = ?
     `;
@@ -265,7 +310,63 @@ app.get("/api/profile", authenticateToken, (req, res) => {
     });
 });
 
+// ================== PROFILE: UPDATE (общий) ==================
+app.put("/api/profile", authenticateToken, (req, res) => {
+    const userId = req.user.id;
 
+    const {
+        name_and_surname,
+        nickname,
+        country,
+        city,
+        profession,
+        position,
+        linkedin_url,
+        instagram_url,
+        facebook_url,
+    } = req.body;
+
+    const sql = `
+        UPDATE users
+        SET
+            name_and_surname = ?,
+            nickname         = ?,
+            country          = ?,
+            city             = ?,
+            profesion        = ?,
+            POSITION         = ?,
+            linkedin_url     = ?,
+            instagram_url    = ?,
+            facebook_url     = ?
+        WHERE id = ?
+    `;
+
+    db.query(
+        sql,
+        [
+            name_and_surname,
+            nickname,
+            country,
+            city,
+            profession,
+            position,
+            linkedin_url,
+            instagram_url,
+            facebook_url,
+            userId,
+        ],
+        (err) => {
+            if (err) {
+                console.error("PUT /api/profile error:", err);
+                return res.status(500).json({ error: "Błąd serwera" });
+            }
+
+            res.json({ success: true });
+        }
+    );
+});
+
+// ================== USER BY ID (чужой профиль) ==================
 app.get("/api/users/:id", authenticateToken, (req, res) => {
     const userId = req.params.id;
 
@@ -299,7 +400,7 @@ app.get("/api/users/:id", authenticateToken, (req, res) => {
     });
 });
 
-// ================== PROFILE: UPDATE ==================
+// =============== SETTINGS: SOCIALS ===============
 app.put("/api/settings/socials", authenticateToken, (req, res) => {
     const userId = req.user.id;
     const { linkedin_url, instagram_url, facebook_url } = req.body;
@@ -336,7 +437,6 @@ app.put("/api/settings/contact", authenticateToken, (req, res) => {
         return res.status(400).json({ error: "Brak danych do aktualizacji" });
     }
 
-    // проверяем, не занят ли email другим пользователем
     const checkSql = "SELECT id FROM users WHERE email = ? AND id <> ?";
     db.query(checkSql, [email, userId], (err, rows) => {
         if (err) {
@@ -363,7 +463,6 @@ app.put("/api/settings/contact", authenticateToken, (req, res) => {
         });
     });
 });
-
 
 // =============== SETTINGS: PASSWORD CHANGE ===============
 app.put("/api/settings/password", authenticateToken, (req, res) => {
@@ -410,8 +509,6 @@ app.put("/api/settings/password", authenticateToken, (req, res) => {
     });
 });
 
-
-
 // ================== PROFILE AVATAR UPLOAD ==================
 app.post(
     "/api/profile/avatar",
@@ -438,56 +535,50 @@ app.post(
     }
 );
 
-app.post(
-    "/api/links",
-    authenticateToken,
-    uploadLinkIcon.single("image"),      // поле "image" в FormData
-    (req, res) => {
-        const userId = req.user.id;
-        const { id, link } = req.body;
-        const imageUrl = req.file ? `/links/${req.file.filename}` : null;
+// ================== CALENDAR (из файла друга, но через authenticateToken) ==================
 
-        if (!link) {
-            return res.status(400).json({ error: "Brakuje linku" });
+// Получить события текущего пользователя
+app.get("/calendar", authenticateToken, (req, res) => {
+    const sql = `
+        SELECT id, text, date, hour_form, hour_to
+        FROM calendar
+        WHERE user_id = ?
+        ORDER BY date, hour_form
+    `;
+    db.query(sql, [req.user.id], (err, results) => {
+        if (err) return res.status(500).json({ error: err });
+        res.json(results);
+    });
+});
+
+// Добавить новое событие
+app.post("/calendar", authenticateToken, (req, res) => {
+    const { text, date, hour_form, hour_to } = req.body;
+    const sql = `
+        INSERT INTO calendar (text, date, hour_form, hour_to, user_id)
+        VALUES (?, ?, ?, ?, ?)
+    `;
+    db.query(
+        sql,
+        [text, date, hour_form, hour_to, req.user.id],
+        (err, result) => {
+            if (err) return res.status(500).json({ error: err });
+            res.json({ success: true, id: result.insertId });
         }
+    );
+});
 
-        if (id) {
-            // UPDATE
-            const sql = `
-                UPDATE links
-                SET link = ?, image_url = COALESCE(?, image_url)
-                WHERE id = ? AND user_id = ?
-            `;
-            db.query(sql, [link, imageUrl, id, userId], (err) => {
-                if (err) {
-                    console.error("UPDATE link error:", err);
-                    return res.status(500).json({ error: "Błąd serwera" });
-                }
-                res.json({ success: true });
-            });
-        } else {
-            // INSERT
-            const sql = `
-                INSERT INTO links (link, user_id, image_url)
-                VALUES (?, ?, ?)
-            `;
-            db.query(sql, [link, userId, imageUrl], (err, result) => {
-                if (err) {
-                    console.error("INSERT link error:", err);
-                    return res.status(500).json({ error: "Błąd serwera" });
-                }
-                res.status(201).json({
-                    success: true,
-                    id: result.insertId,
-                    link,
-                    image_url: imageUrl,
-                });
-            });
-        }
-    }
-);
+// Удалить событие пользователя
+app.delete("/calendar/:id", authenticateToken, (req, res) => {
+    const { id } = req.params;
+    const sql = "DELETE FROM calendar WHERE user_id = ? AND id = ?";
+    db.query(sql, [req.user.id, id], (err) => {
+        if (err) return res.status(500).json({ error: err });
+        res.json({ success: true });
+    });
+});
 
-
+// ================== START SERVER ==================
 app.listen(3000, () => {
     console.log("Backend działa na http://localhost:3000");
 });

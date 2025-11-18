@@ -2,6 +2,7 @@ import "/src/Css/profile.css";
 import { useEffect, useRef, useState } from "react";
 import {data, useParams} from "react-router-dom";
 
+
 function Profile() {
     // ============ PFP LOGIC ============
     const [pfpBg, setPfpBg] = useState("/user.jpg");
@@ -378,7 +379,7 @@ function Profile() {
                                     ) : (
                                         <i
                                             className="bx bxs-edit-alt"
-                                            onClick={() => setEditSection("identity")}
+                                            onClick={() => setEditSection("job")}
                                         ></i>
                                     )
                                 )}
@@ -442,7 +443,7 @@ function Profile() {
                                     ) : (
                                         <i
                                             className="bx bxs-edit-alt"
-                                            onClick={() => setEditSection("identity")}
+                                            onClick={() => setEditSection("location")}
                                         ></i>
                                     )
                                 )}
