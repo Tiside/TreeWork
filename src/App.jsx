@@ -97,7 +97,7 @@ function App() {
                                     </div>
 
                                     <Routes>
-                                        <Route path="/workspace" element={<Workspace />} />
+                                        <Route path="/workspace/:projectId" element={<Workspace />} />
                                     </Routes>
                                 </div>
                             </div>
@@ -106,7 +106,7 @@ function App() {
                         {isProjectFormRoute && (
                             <div className="form-container">
                                 <div className="projectform-page">
-                                    <ProjectForm />
+                                    <ProjectForm token={token} />
                                 </div>
                             </div>
                         )}
@@ -135,7 +135,7 @@ function App() {
                                             <Route path="/profile" element={<Profile />} />
                                             <Route path="/settings" element={<Settings />} />
                                             <Route path="/cloud" element={<Cloud />} />
-                                            <Route path="/work" element={<Work />} />
+                                            <Route path="/work" element={<Work token={token} />} />
                                             <Route path="*" element={<Navigate to="/home" replace />} />
                                             <Route path="/user/:id" element={<Profile />} />
                                         </Routes>

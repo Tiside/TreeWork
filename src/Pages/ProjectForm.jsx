@@ -1,17 +1,42 @@
 import { useState } from "react";
 import "/src/Css/projectForm.css";
+import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
-function ProjectForm() {
+function ProjectForm({token}) {
     const [step, setStep] = useState(1);
 
     const [projectName, setProjectName] = useState("");
     const [projectTime, setProjectTime] = useState("");
     const [projectOwner, setProjectOwner] = useState("");
     const [projectDescription, setProjectDescription] = useState("");
+    const navigate = useNavigate();
 
     const [tasks, setTasks] = useState([
         { id: Date.now(), title: "", dueDate: "", assignee: "", subTasks: [] },
     ]);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const payload = {
+            name: projectName,
+            owner: projectOwner,
+            estimatedTime: projectTime,
+            description: projectDescription,
+            tasks,
+        };
+
+        try {
+            const response = await axios.post("http://localhost:3000/api/projects", payload, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            console.log("Project created:", response.data);
+            navigate(`/work`)
+        } catch (err) {
+            console.error("Błąd przy tworzeniu projektu:", err.response?.data || err);
+        }
+    };
 
     const handleAddTask = () => {
         setTasks(prev => [
@@ -74,20 +99,6 @@ function ProjectForm() {
                     : task
             )
         );
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        const payload = {
-            name: projectName,
-            owner: projectOwner,
-            estimatedTime: projectTime,
-            description: projectDescription,
-            tasks,
-        };
-
-        console.log("Project created:", payload);
     };
 
     const canGoNextStep1 = projectName.trim().length > 0;

@@ -7,6 +7,7 @@ function Home(){
     const [latestFiles, setLatestFiles] = useState([]);
     const [profile, setProfile] = useState({});
     const token = localStorage.getItem("token");
+    const [events, setEvents] = useState([]);
 
     useEffect(() => {
         const load = async () => {
@@ -14,7 +15,6 @@ function Home(){
                 const res = await fetch("http://localhost:4001/files");
                 const data = await res.json();
 
-                // берем только 2 последних:
                 setLatestFiles(data.slice(0, 2));
             } catch (err) {
                 console.error("Failed to load latest files:", err);
@@ -44,11 +44,32 @@ function Home(){
 
         loadProfile();
     }, [token]);
+
+    useEffect(() => {
+        if (!token) return;
+
+        const loadEvents = async () => {
+            try {
+                const res = await fetch("http://localhost:3000/api/events", {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+                if (!res.ok) return;
+
+                const data = await res.json();
+                setEvents(data);
+            } catch (err) {
+                console.error("Failed to load events:", err);
+            }
+        };
+
+        loadEvents();
+    }, [token]);
+
     return (
         <>
             <div className="home-nav">
                 <div className="text">
-                    <h2>Welcome <span>Tiside</span>!</h2>
+                    <h2>Welcome <span>{profile.name_and_surname}</span>!</h2>
                     <p>Let's work together</p>
                 </div>
 
@@ -67,9 +88,9 @@ function Home(){
                                      }}
                                 ></div>
                                 <div className="user-info">
-                                    <h2>Stanislav Bazhan</h2>
-                                    <h3>Tiside</h3>
-                                    <p>Web Developer</p>
+                                    <h2>{profile.name_and_surname}</h2>
+                                    <h3>{profile.nickname}</h3>
+                                    <p>{profile.profession}</p>
                                 </div>
                             </div>
 
@@ -152,7 +173,7 @@ function Home(){
                                     <span className="icon bx bx-calendar-event"></span>
                                 </div>
 
-                                <p className="stat-number">4</p>
+                                <p className="stat-number">{events.length}</p>
                                 <p className="stat-desc">Active tasks planned for this week.</p>
                             </div>
 

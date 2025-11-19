@@ -537,48 +537,127 @@ app.post(
 
 // ================== CALENDAR (из файла друга, но через authenticateToken) ==================
 
-// Получить события текущего пользователя
-app.get("/calendar", authenticateToken, (req, res) => {
-    const sql = `
-        SELECT id, text, date, hour_form, hour_to
-        FROM calendar
-        WHERE user_id = ?
-        ORDER BY date, hour_form
-    `;
+const auth = (req, res, next) => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) return res.status(401).json({ error: "Brak tokenu" });
+
+    const token = authHeader.split(" ")[1]; // Bearer TOKEN
+    if (!token) return res.status(401).json({ error: "Brak tokenu" });
+
+    try {
+        const user = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = user;
+        next();
+    } catch {
+        res.status(401).json({ error: "Nieprawidłowy token" });
+    }
+};
+
+app.get("/calendar", auth, (req, res) => {
+    const sql = "SELECT * FROM Calendar WHERE user_id = ?";
     db.query(sql, [req.user.id], (err, results) => {
         if (err) return res.status(500).json({ error: err });
         res.json(results);
     });
 });
 
-// Добавить новое событие
-app.post("/calendar", authenticateToken, (req, res) => {
+app.post("/calendar", auth, (req, res) => {
     const { text, date, hour_form, hour_to } = req.body;
-    const sql = `
-        INSERT INTO calendar (text, date, hour_form, hour_to, user_id)
-        VALUES (?, ?, ?, ?, ?)
-    `;
-    db.query(
-        sql,
-        [text, date, hour_form, hour_to, req.user.id],
-        (err, result) => {
-            if (err) return res.status(500).json({ error: err });
-            res.json({ success: true, id: result.insertId });
-        }
-    );
+    const sql = "INSERT INTO Calendar (text, date, hour_from, hour_to, user_id) VALUES (?, ?, ?, ?, ?)";
+    db.query(sql, [text, date, hour_form, hour_to, req.user.id], (err, result) => {
+        if (err) return res.status(500).json({ error: err });
+        res.json({ success: true, id: result.insertId });
+    });
 });
 
-// Удалить событие пользователя
-app.delete("/calendar/:id", authenticateToken, (req, res) => {
+app.delete("/calendar/:id", auth, (req, res) => {
     const { id } = req.params;
-    const sql = "DELETE FROM calendar WHERE user_id = ? AND id = ?";
+    const sql = "DELETE FROM Calendar WHERE user_id = ? AND id = ?";
     db.query(sql, [req.user.id, id], (err) => {
         if (err) return res.status(500).json({ error: err });
         res.json({ success: true });
     });
 });
 
-// ================== START SERVER ==================
+app.post("/api/projects", authenticateToken, (req, res) => {
+    const userId = req.user.id;
+    const { name, owner, estimatedTime, description, tasks } = req.body;
+
+    const projectSql = `INSERT INTO project (name, owner, estimated_time, description, user_id) VALUES (?, ?, ?, ?, ?)`;
+    db.query(projectSql, [name, owner, estimatedTime, description, userId], (err, result) => {
+        if (err) {
+            console.error("INSERT project error:", err);
+            return res.status(500).json({ error: "Błąd serwera" });
+        }
+
+        const projectId = result.insertId;
+
+        if (tasks && tasks.length > 0) {
+            const taskSql = `INSERT INTO task (project_id, title, due_date, assignee) VALUES (?, ?, ?, ?)`;
+            tasks.forEach(task => {
+                db.query(taskSql, [projectId, task.title, task.dueDate, task.assignee], (err2, result2) => {
+                    if (err2) console.error("INSERT task error:", err2);
+
+                    const taskId = result2.insertId;
+
+                    if (task.subTasks && task.subTasks.length > 0) {
+                        const subTaskSql = `INSERT INTO subtask (task_id, title, due_date, assignee) VALUES (?, ?, ?, ?)`;
+                        task.subTasks.forEach(sub => {
+                            db.query(subTaskSql, [taskId, sub.title, sub.dueDate, sub.assignee], err3 => {
+                                if (err3) console.error("INSERT subtask error:", err3);
+                            });
+                        });
+                    }
+                });
+            });
+        }
+
+        res.json({ success: true, projectId });
+    });
+});
+
+app.get("/api/projects", authenticateToken, (req, res) => {
+    const userId = req.user.id;
+
+    const projectsSql = `SELECT * FROM project WHERE user_id = ?`;
+    db.query(projectsSql, [userId], (err, projects) => {
+        if (err) return res.status(500).json({ error: "Błąd serwera" });
+
+        if (projects.length === 0) return res.json([]);
+
+        const projectIds = projects.map(p => p.id);
+        const tasksSql = `SELECT * FROM task WHERE project_id IN (?)`;
+        db.query(tasksSql, [projectIds], (err2, tasks) => {
+            if (err2) return res.status(500).json({ error: "Błąd serwera" });
+
+            const taskIds = tasks.map(t => t.id);
+            if (taskIds.length === 0) {
+                const projectsWithTasks = projects.map(p => ({ ...p, tasks: [] }));
+                return res.json(projectsWithTasks);
+            }
+
+            const subTasksSql = `SELECT * FROM subtask WHERE task_id IN (?)`;
+            db.query(subTasksSql, [taskIds], (err3, subtasks) => {
+                if (err3) return res.status(500).json({ error: "Błąd serwera" });
+
+                const projectsWithTasks = projects.map(p => ({
+                    ...p,
+                    tasks: tasks
+                        .filter(t => t.project_id === p.id)
+                        .map(t => ({
+                            ...t,
+                            subTasks: subtasks.filter(st => st.task_id === t.id)
+                        }))
+                }));
+
+                res.json(projectsWithTasks);
+            });
+        });
+    });
+});
+
+
+
 app.listen(3000, () => {
     console.log("Backend działa na http://localhost:3000");
 });
