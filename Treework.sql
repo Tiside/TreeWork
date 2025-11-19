@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Lis 19, 2025 at 03:33 AM
+-- Generation Time: Lis 19, 2025 at 03:36 AM
 -- Wersja serwera: 10.4.32-MariaDB
 -- Wersja PHP: 8.2.12
 
@@ -35,15 +35,6 @@ CREATE TABLE `calendar` (
                             `hour_to` time DEFAULT NULL,
                             `user_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `calendar`
---
-
-INSERT INTO `calendar` (`id`, `text`, `date`, `hour_from`, `hour_to`, `user_id`) VALUES
-                                                                                     (1, 'test', '2025-11-20', NULL, '14:44:00', 1),
-                                                                                     (3, 'test1', '2025-11-05', NULL, '12:32:00', 1),
-                                                                                     (4, 'adweq', '2025-11-14', NULL, '12:54:00', 1);
 
 -- --------------------------------------------------------
 
@@ -89,17 +80,6 @@ CREATE TABLE `project` (
                            `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `project`
---
-
-INSERT INTO `project` (`id`, `user_id`, `name`, `owner`, `estimated_time`, `description`, `created_at`) VALUES
-                                                                                                            (1, 1, 'test', 'olivier', 60, 'test czy dziala', '2025-11-19 01:21:42'),
-                                                                                                            (12, 1, 'test2', 'olivier', 60, 'test czy dziala wczytywanie ', '2025-11-19 01:41:39'),
-                                                                                                            (13, 1, 'afasadsa', '', 0, '', '2025-11-19 02:11:08'),
-                                                                                                            (14, 1, 'asdasdsad', '', 0, '', '2025-11-19 02:13:54'),
-                                                                                                            (15, 1, 'asfasdsadsa', '', 0, '', '2025-11-19 02:14:23');
-
 -- --------------------------------------------------------
 
 --
@@ -115,16 +95,6 @@ CREATE TABLE `subtask` (
                            `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `subtask`
---
-
-INSERT INTO `subtask` (`id`, `task_id`, `title`, `due_date`, `assignee`, `created_at`) VALUES
-                                                                                           (1, 1, 'test01', '0000-00-00', '', '2025-11-19 01:21:42'),
-                                                                                           (5, 14, 'test02', '0000-00-00', '', '2025-11-19 01:41:39'),
-                                                                                           (6, 17, 'asdsadad', '0000-00-00', '', '2025-11-19 02:13:54'),
-                                                                                           (7, 18, 'sadasdasda', '0000-00-00', '', '2025-11-19 02:14:23');
-
 -- --------------------------------------------------------
 
 --
@@ -139,19 +109,6 @@ CREATE TABLE `task` (
                         `assignee` varchar(255) DEFAULT NULL,
                         `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `task`
---
-
-INSERT INTO `task` (`id`, `project_id`, `title`, `due_date`, `assignee`, `created_at`) VALUES
-                                                                                           (1, 1, 'test1', '0000-00-00', '', '2025-11-19 01:21:42'),
-                                                                                           (13, 12, 'test1', '0000-00-00', '', '2025-11-19 01:41:39'),
-                                                                                           (14, 12, 'task2', '0000-00-00', '', '2025-11-19 01:41:39'),
-                                                                                           (15, 12, 'tast 3', '0000-00-00', '', '2025-11-19 01:41:39'),
-                                                                                           (16, 13, 'sadasd', '0000-00-00', '', '2025-11-19 02:11:08'),
-                                                                                           (17, 14, 'asdasd', '0000-00-00', '', '2025-11-19 02:13:54'),
-                                                                                           (18, 15, 'asdsada', '0000-00-00', '', '2025-11-19 02:14:23');
 
 -- --------------------------------------------------------
 
@@ -175,13 +132,6 @@ CREATE TABLE `users` (
                          `instagram_url` varchar(255) DEFAULT NULL,
                          `facebook_url` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`id`, `name_and_surname`, `nickname`, `email`, `PASSWORD`, `profile_picture`, `phone_number`, `country`, `city`, `profesion`, `POSITION`, `linkedin_url`, `instagram_url`, `facebook_url`) VALUES
-    (1, 'olivier', NULL, 'olivier@test.com', '$2b$10$q6i/jyqxjouJed//Z/4JNeWpIx9hOyvEFVhLHlfPsuBM3sJHf2WEK', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 --
 -- Indeksy dla zrzutów tabel
