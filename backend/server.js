@@ -108,7 +108,7 @@ app.get("/api/search", authenticateToken, (req, res) => {
     `;
 
     const eventsSql = `
-        SELECT id, text, date, hour_form, hour_to
+        SELECT id, text, date, hour_from, hour_to
         FROM calendar
         WHERE user_id = ?
           AND text LIKE ?
@@ -579,42 +579,151 @@ app.delete("/calendar/:id", auth, (req, res) => {
     });
 });
 
+
+// ================== NOTES ==================
+
+// Pobierz wszystkie notatki zalogowanego użytkownika
+app.get("/api/notes", authenticateToken, (req, res) => {
+    const userId = req.user.id;
+
+    const sql = `
+        SELECT id, title, text, attributes, tags
+        FROM notes
+        WHERE user_id = ?
+        ORDER BY id DESC
+    `;
+
+    db.query(sql, [userId], (err, rows) => {
+        if (err) {
+            console.error("GET /api/notes error:", err);
+            return res.status(500).json({ error: "Błąd serwera przy pobieraniu notatek" });
+        }
+        res.json(rows);
+    });
+});
+
+// Utwórz nową notatkę
+app.post("/api/notes", authenticateToken, (req, res) => {
+    const userId = req.user.id;
+    const { title, text, attributes, tags } = req.body;
+
+    if (!title || !title.trim()) {
+        return res.status(400).json({ error: "Tytuł notatki jest wymagany" });
+    }
+
+    const sql = `
+        INSERT INTO notes (user_id, title, text, attributes, tags)
+        VALUES (?, ?, ?, ?, ?)
+    `;
+
+    db.query(
+        sql,
+        [
+            userId,
+            title.trim(),
+            text || null,
+            attributes || null,
+            tags || null,
+        ],
+        (err, result) => {
+            if (err) {
+                console.error("POST /api/notes error:", err);
+                return res.status(500).json({
+                    error: "Błąd serwera przy zapisie notatki",
+                    details: err.message,
+                });
+            }
+
+            res.status(201).json({
+                success: true,
+                id: result.insertId,
+                user_id: userId,
+                title: title.trim(),
+                text: text || null,
+                attributes: attributes || null,
+                tags: tags || null,
+            });
+        }
+    );
+});
+
+
+
+
+
+
 app.post("/api/projects", authenticateToken, (req, res) => {
     const userId = req.user.id;
     const { name, owner, estimatedTime, description, tasks } = req.body;
 
-    const projectSql = `INSERT INTO project (name, owner, estimated_time, description, user_id) VALUES (?, ?, ?, ?, ?)`;
-    db.query(projectSql, [name, owner, estimatedTime, description, userId], (err, result) => {
+    // Приводим estimatedTime к INT или NULL
+    let estimated = null;
+    if (estimatedTime !== undefined && estimatedTime !== null && estimatedTime !== "") {
+        const parsed = parseInt(estimatedTime, 10);
+        if (Number.isNaN(parsed)) {
+            return res.status(400).json({ error: "Nieprawidłowy czas (estimatedTime)" });
+        }
+        estimated = parsed;
+    }
+
+    const projectSql = `
+        INSERT INTO project (name, owner, estimated_time, description, user_id)
+        VALUES (?, ?, ?, ?, ?)
+    `;
+
+    db.query(projectSql, [name, owner, estimated, description, userId], (err, result) => {
         if (err) {
             console.error("INSERT project error:", err);
-            return res.status(500).json({ error: "Błąd serwera" });
+            return res.status(500).json({ error: "Błąd serwera przy zapisie projektu" });
         }
 
         const projectId = result.insertId;
 
-        if (tasks && tasks.length > 0) {
-            const taskSql = `INSERT INTO task (project_id, title, due_date, assignee) VALUES (?, ?, ?, ?)`;
-            tasks.forEach(task => {
-                db.query(taskSql, [projectId, task.title, task.dueDate, task.assignee], (err2, result2) => {
-                    if (err2) console.error("INSERT task error:", err2);
+        // если нет задач — сразу отвечаем
+        if (!tasks || tasks.length === 0) {
+            return res.json({ success: true, projectId });
+        }
+
+        const taskSql = `
+            INSERT INTO task (project_id, title, due_date, assignee)
+            VALUES (?, ?, ?, ?)
+        `;
+        const subTaskSql = `
+            INSERT INTO subtask (task_id, title, due_date, assignee)
+            VALUES (?, ?, ?, ?)
+        `;
+
+        tasks.forEach((task) => {
+            db.query(
+                taskSql,
+                [projectId, task.title, task.dueDate || null, task.assignee || null],
+                (err2, result2) => {
+                    if (err2) {
+                        console.error("INSERT task error:", err2);
+                        return;
+                    }
 
                     const taskId = result2.insertId;
 
                     if (task.subTasks && task.subTasks.length > 0) {
-                        const subTaskSql = `INSERT INTO subtask (task_id, title, due_date, assignee) VALUES (?, ?, ?, ?)`;
-                        task.subTasks.forEach(sub => {
-                            db.query(subTaskSql, [taskId, sub.title, sub.dueDate, sub.assignee], err3 => {
-                                if (err3) console.error("INSERT subtask error:", err3);
-                            });
+                        task.subTasks.forEach((sub) => {
+                            db.query(
+                                subTaskSql,
+                                [taskId, sub.title, sub.dueDate || null, sub.assignee || null],
+                                (err3) => {
+                                    if (err3) console.error("INSERT subtask error:", err3);
+                                }
+                            );
                         });
                     }
-                });
-            });
-        }
+                }
+            );
+        });
 
         res.json({ success: true, projectId });
     });
 });
+
 
 app.get("/api/projects", authenticateToken, (req, res) => {
     const userId = req.user.id;
